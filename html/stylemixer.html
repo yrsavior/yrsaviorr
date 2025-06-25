@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hip-Hop Style Finder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Oswald', sans-serif;
+            background: #000000;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 메뉴 버튼 스타일 */
+        .menu-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: transparent;
+            border: 3px solid #ff6b6b;
+            border-radius: 18px 12px 20px 15px;
+            cursor: pointer;
+            z-index: 1000;
+            padding: 12px 20px;
+            transition: all 0.3s ease;
+            transform: rotate(-2deg);
+            box-shadow: 
+                0 0 15px rgba(255, 107, 107, 0.6),
+                inset 0 0 15px rgba(255, 107, 107, 0.1);
+            animation: menuPulse 4s ease-in-out infinite alternate;
+        }
+
+        .menu-button:hover {
+            transform: rotate(-2deg) scale(1.1);
+            border-color: #ffa500;
+            box-shadow: 
+                0 0 25px rgba(255, 165, 0, 0.8),
+                inset 0 0 20px rgba(255, 165, 0, 0.2);
+        }
+
+        .menu-button:hover .menu-text {
+            color: #ffa500;
+            text-shadow: 0 0 15px rgba(255, 165, 0, 0.8);
+        }
+
+        @keyframes menuPulse {
+            0% {
+                box-shadow: 
+                    0 0 15px rgba(255, 107, 107, 0.6),
+                    inset 0 0 15px rgba(255, 107, 107, 0.1);
+            }
+            100% {
+                box-shadow: 
+                    0 0 30px rgba(255, 107, 107, 0.8),
+                    0 0 40px rgba(255, 107, 107, 0.4),
+                    inset 0 0 20px rgba(255, 107, 107, 0.2);
+            }
+        }
+
+        .menu-text {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.2rem;
+            color: #ff6b6b;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.6);
+            transition: all 0.3s ease;
+            transform: rotate(1deg);
+        }
+        .stars-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 2s ease-in-out infinite;
+        }
+
+        .star:nth-child(odd) {
+            animation-delay: 1s;
+        }
+
+        .star:nth-child(3n) {
+            animation-delay: 0.5s;
+        }
+
+        .star:nth-child(4n) {
+            animation-delay: 1.5s;
+        }
+
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        /* 바닥 이미지 컨테이너 */
+        .floor-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-image: url('../img/moonfloor.png');
+            background-size: contain;
+            background-position: center bottom;
+            background-repeat: no-repeat;
+            opacity: 0.8;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* 낙서 효과 배경 */
+        .graffiti-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 3;
+            opacity: 0.1;
+        }
+
+        .graffiti-element {
+            position: absolute;
+            font-family: 'Bebas Neue', cursive;
+            font-size: 3rem;
+            color: #fff;
+            transform: rotate(-15deg);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: rotate(-15deg) translateY(0px); }
+            50% { transform: rotate(-15deg) translateY(-20px); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-bottom: 220px; /* 바닥 이미지 공간 확보 */
+            position: relative;
+            z-index: 10;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .main-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 4rem;
+            color: #fff;
+            text-shadow: 3px 3px 0px #000, 6px 6px 0px rgba(255,107,107,0.5);
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 3px 3px 0px #000, 6px 6px 0px rgba(255,107,107,0.5), 0 0 20px rgba(255,255,255,0.5); }
+            to { text-shadow: 3px 3px 0px #000, 6px 6px 0px rgba(255,107,107,0.8), 0 0 30px rgba(255,255,255,0.8); }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #fff;
+            font-weight: 300;
+            margin-bottom: 30px;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: none;
+            padding: 30px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: visible;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: transparent;
+            border: 3px solid #ff6b6b;
+            border-radius: 25px 15px 30px 20px;
+            box-shadow: 
+                0 0 20px #ff6b6b,
+                inset 0 0 20px rgba(255, 107, 107, 0.1);
+            transform: rotate(-0.5deg);
+            z-index: -1;
+        }
+
+        .section::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s;
+            z-index: -1;
+        }
+
+        .section:hover::after {
+            left: 100%;
+        }
+
+        .section:nth-child(even)::before {
+            border-color: #ffa500;
+            box-shadow: 
+                0 0 20px #ffa500,
+                inset 0 0 20px rgba(255, 165, 0, 0.1);
+            transform: rotate(0.8deg);
+            border-radius: 20px 25px 15px 35px;
+        }
+
+        .section:nth-child(3n)::before {
+            border-color: #00ffff;
+            box-shadow: 
+                0 0 20px #00ffff,
+                inset 0 0 20px rgba(0, 255, 255, 0.1);
+            transform: rotate(-1deg);
+            border-radius: 30px 20px 25px 18px;
+        }
+
+        /* 초기 애니메이션 효과 - 5초 후 제거됨 */
+        .initial-animation::before {
+            animation: neonFlicker 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes neonFlicker {
+            0%, 100% {
+                opacity: 1;
+                filter: brightness(1);
+            }
+            50% {
+                opacity: 0.8;
+                filter: brightness(1.2);
+            }
+        }
+
+        .section-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2.5rem;
+            color: #ff6b6b;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .quiz-container {
+            display: grid;
+            gap: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .question {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            padding: 20px;
+            border: 2px solid #667eea;
+            border-radius: 18px 25px 15px 22px;
+            box-shadow: 
+                0 0 15px rgba(102, 126, 234, 0.6),
+                inset 0 0 15px rgba(102, 126, 234, 0.1);
+            position: relative;
+            transform: rotate(-0.3deg);
+            margin-bottom: 15px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+        .question::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s;
+        }
+
+        .question:hover::before {
+            left: 100%;
+        }
+
+        .question:nth-child(even) {
+            border-color: #764ba2;
+            box-shadow: 
+                0 0 15px rgba(118, 75, 162, 0.6),
+                inset 0 0 15px rgba(118, 75, 162, 0.1);
+            transform: rotate(0.4deg);
+            border-radius: 22px 15px 28px 18px;
+        }
+
+        .question:nth-child(3n) {
+            border-color: #ff6b6b;
+            box-shadow: 
+                0 0 15px rgba(255, 107, 107, 0.6),
+                inset 0 0 15px rgba(255, 107, 107, 0.1);
+            transform: rotate(-0.6deg);
+            border-radius: 20px 30px 16px 24px;
+        }
+
+        /* 초기 애니메이션 - question 박스용 */
+        .initial-animation.question {
+            animation: questionFloat 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes questionFloat {
+            0% {
+                transform: rotate(-0.3deg) translateY(0px);
+            }
+            100% {
+                transform: rotate(-0.3deg) translateY(-10px);
+            }
+        }
+
+        .initial-animation.question:nth-child(even) {
+            animation: questionFloatEven 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes questionFloatEven {
+            0% {
+                transform: rotate(0.4deg) translateY(0px);
+            }
+            100% {
+                transform: rotate(0.4deg) translateY(-10px);
+            }
+        }
+
+        .initial-animation.question:nth-child(3n) {
+            animation: questionFloat3n 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes questionFloat3n {
+            0% {
+                transform: rotate(-0.6deg) translateY(0px);
+            }
+            100% {
+                transform: rotate(-0.6deg) translateY(-10px);
+            }
+        }
+
+        .question h3 {
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .option {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .option.selected {
+            background: linear-gradient(45deg, #ff6b6b, #ffa500);
+            transform: scale(1.05);
+        }
+
+        .mixer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .style-category {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            padding: 20px;
+            border: 2px solid #ffa500;
+            border-radius: 20px 15px 25px 18px;
+            box-shadow: 
+                0 0 15px rgba(255, 165, 0, 0.6),
+                inset 0 0 15px rgba(255, 165, 0, 0.1);
+            position: relative;
+            transform: rotate(0.3deg);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+        .style-category::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s;
+        }
+
+        .style-category:hover::before {
+            left: 100%;
+        }
+
+        .style-category:nth-child(even) {
+            border-color: #00ffff;
+            box-shadow: 
+                0 0 15px rgba(0, 255, 255, 0.6),
+                inset 0 0 15px rgba(0, 255, 255, 0.1);
+            transform: rotate(-0.5deg);
+            border-radius: 15px 25px 20px 22px;
+        }
+
+        .style-category:nth-child(3n) {
+            border-color: #ff69b4;
+            box-shadow: 
+                0 0 15px rgba(255, 105, 180, 0.6),
+                inset 0 0 15px rgba(255, 105, 180, 0.1);
+            transform: rotate(0.7deg);
+            border-radius: 25px 18px 30px 16px;
+        }
+
+        .style-category:nth-child(4n) {
+            border-color: #32cd32;
+            box-shadow: 
+                0 0 15px rgba(50, 205, 50, 0.6),
+                inset 0 0 15px rgba(50, 205, 50, 0.1);
+            transform: rotate(-0.4deg);
+            border-radius: 22px 28px 17px 24px;
+        }
+
+        /* 초기 애니메이션 - style-category 박스용 */
+        .initial-animation.style-category {
+            animation: categoryFloat 3.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes categoryFloat {
+            0% {
+                transform: rotate(0.3deg) translateY(0px);
+            }
+            100% {
+                transform: rotate(0.3deg) translateY(-8px);
+            }
+        }
+
+        .initial-animation.style-category:nth-child(even) {
+            animation: categoryFloatEven 3.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes categoryFloatEven {
+            0% {
+                transform: rotate(-0.5deg) translateY(0px);
+            }
+            100% {
+                transform: rotate(-0.5deg) translateY(-8px);
+            }
+        }
+
+        .initial-animation.style-category:nth-child(3n) {
+            animation: categoryFloat3n 3.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes categoryFloat3n {
+            0% {
+                transform: rotate(0.7deg) translateY(0px);
+            }
+            100% {
+                transform: rotate(0.7deg) translateY(-8px);
+            }
+        }
+
+        .initial-animation.style-category:nth-child(4n) {
+            animation: categoryFloat4n 3.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes categoryFloat4n {
+            0% {
+                transform: rotate(-0.4deg) translateY(0px);
+            }
+            100% {
+                transform: rotate(-0.4deg) translateY(-8px);
+            }
+        }
+
+        .category-title {
+            color: #ffa500;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .item-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .style-item {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .style-item:hover {
+            background: linear-gradient(135deg, #ff6b6b, #ffa500);
+            transform: scale(1.1);
+        }
+
+        .style-item.selected {
+            background: linear-gradient(135deg, #ffa500, #ff6b6b);
+            box-shadow: 0 0 20px rgba(255,165,0,0.5);
+        }
+
+        .result-section {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 4px solid #ff6b6b;
+            border-radius: 35px 25px 40px 30px;
+            box-shadow: 
+                0 0 30px #ff6b6b,
+                inset 0 0 30px rgba(255, 107, 107, 0.1);
+            margin-top: 30px;
+            position: relative;
+            z-index: 2;
+            transform: rotate(-0.3deg);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+        .result-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s;
+        }
+
+        .result-section:hover::before {
+            left: 100%;
+        }
+
+        /* 초기 애니메이션 - result-section용 */
+        .initial-animation.result-section {
+            animation: resultGlow 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes resultGlow {
+            0% {
+                box-shadow: 
+                    0 0 30px #ff6b6b,
+                    inset 0 0 30px rgba(255, 107, 107, 0.1);
+            }
+            100% {
+                box-shadow: 
+                    0 0 50px #ff6b6b,
+                    0 0 70px rgba(255, 107, 107, 0.3),
+                    inset 0 0 30px rgba(255, 107, 107, 0.2);
+            }
+        }
+
+        .result-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 3rem;
+            color: #ffa500;
+            margin-bottom: 20px;
+        }
+
+        .result-text {
+            font-size: 1.2rem;
+            color: #fff;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .brand-recommendations {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .brand-item {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 25px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: transparent;
+            color: #ff6b6b;
+            border: 3px solid #ff6b6b;
+            padding: 15px 30px;
+            border-radius: 20px 15px 25px 18px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transform: rotate(-0.3deg);
+            box-shadow: 
+                0 0 15px rgba(255, 107, 107, 0.4),
+                inset 0 0 15px rgba(255, 107, 107, 0.1);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px) rotate(-0.3deg);
+            box-shadow: 
+                0 10px 25px rgba(255, 107, 107, 0.4),
+                0 0 30px #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            color: #fff;
+        }
+
+        .avatar-display {
+            width: 200px;
+            height: 300px;
+            background: transparent;
+            border: 3px solid #00ffff;
+            border-radius: 25px 20px 30px 18px;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            box-shadow: 
+                0 0 20px rgba(0, 255, 255, 0.6),
+                inset 0 0 20px rgba(0, 255, 255, 0.1);
+            transform: rotate(0.5deg);
+        }
+
+        /* 초기 애니메이션 - avatar용 */
+        .initial-animation.avatar-display {
+            animation: avatarPulse 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes avatarPulse {
+            0% {
+                box-shadow: 
+                    0 0 20px rgba(0, 255, 255, 0.6),
+                    inset 0 0 20px rgba(0, 255, 255, 0.1);
+            }
+            100% {
+                box-shadow: 
+                    0 0 35px rgba(0, 255, 255, 0.8),
+                    0 0 50px rgba(0, 255, 255, 0.4),
+                    inset 0 0 20px rgba(0, 255, 255, 0.2);
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .options {
+                grid-template-columns: 1fr;
+            }
+            
+            .mixer-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-button" id="menu-button">
+        <div class="menu-text">MENU</div>
+    </div>
+
+    <div class="stars-bg" id="stars-bg"></div>
+    <div class="floor-container" id="floor-container"></div>
+    <div class="graffiti-bg">
+        <div class="graffiti-element" style="top: 10%; left: 5%;">FRESH</div>
+        <div class="graffiti-element" style="top: 20%; right: 10%; animation-delay: 1s;">STYLE</div>
+        <div class="graffiti-element" style="top: 40%; left: 10%; animation-delay: 2s;">SWAG</div>
+        <div class="graffiti-element" style="bottom: 30%; right: 5%; animation-delay: 3s;">DOPE</div>
+        <div class="graffiti-element" style="bottom: 10%; left: 15%; animation-delay: 4s;">FLEX</div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <h1 class="main-title">HIP-HOP STYLE FINDER</h1>
+            <p class="subtitle">Discover your unique fashion DNA and create the perfect hip-hop look</p>
+        </header>
+
+        <!-- Style DNA Test Section -->
+        <section class="section initial-animation" id="quiz-section">
+            <h2 class="section-title">🎤 STYLE DNA TEST</h2>
+            <div class="quiz-container">
+                <div class="question initial-animation">
+                    <h3>Which hip-hop artist's style appeals to you the most?</h3>
+                    <div class="options">
+                        <button class="option" data-style="oldschool" data-question="artist">Nas, Jay-Z (Classic)</button>
+                        <button class="option" data-style="trendy" data-question="artist">Travis Scott, A$AP Rocky (Trendy)</button>
+                        <button class="option" data-style="luxury" data-question="artist">Drake, Kanye West (Luxury)</button>
+                        <button class="option" data-style="street" data-question="artist">Kendrick Lamar, J. Cole (Street)</button>
+                    </div>
+                </div>
+
+                <div class="question initial-animation">
+                    <h3>What's your most comfortable outfit?</h3>
+                    <div class="options">
+                        <button class="option" data-style="oldschool" data-question="comfort">Oversized hoodie + Baggy pants</button>
+                        <button class="option" data-style="trendy" data-question="comfort">Crop tee + Skinny jeans</button>
+                        <button class="option" data-style="luxury" data-question="comfort">Designer tee + Tailored pants</button>
+                        <button class="option" data-style="street" data-question="comfort">Graphic tee + Cargo pants</button>
+                    </div>
+                </div>
+
+                <div class="question initial-animation">
+                    <h3>What's your criteria for choosing shoes?</h3>
+                    <div class="options">
+                        <button class="option" data-style="oldschool" data-question="shoes">Classic vibe (Timberland, AF1)</button>
+                        <button class="option" data-style="trendy" data-question="shoes">Latest trends (Yeezy, newest sneakers)</button>
+                        <button class="option" data-style="luxury" data-question="shoes">Brand value (Balenciaga, Rick Owens)</button>
+                        <button class="option" data-style="street" data-question="shoes">Comfort (Vans, Converse)</button>
+                    </div>
+                </div>
+            </div>
+            <div class="action-buttons">
+                <button class="btn" onclick="showMixer()">GO TO STYLE MIXER</button>
+                <button class="btn" onclick="calculateResult()">CHECK MY STYLE</button>
+            </div>
+        </section>
+
+        <!-- Style Mixer Section -->
+        <section class="section initial-animation hidden" id="mixer-section">
+            <h2 class="section-title">🎨 HIP-HOP STYLE MIXER</h2>
+            <div class="mixer-container">
+                <div class="style-category initial-animation">
+                    <h3 class="category-title">👕 TOPS</h3>
+                    <div class="item-grid">
+                        <button class="style-item" data-category="top">Oversized Hoodie</button>
+                        <button class="style-item" data-category="top">Graphic Tee</button>
+                        <button class="style-item" data-category="top">Crop Top</button>
+                        <button class="style-item" data-category="top">Jersey</button>
+                        <button class="style-item" data-category="top">Designer Tee</button>
+                        <button class="style-item" data-category="top">Chain Accessory</button>
+                    </div>
+                </div>
+
+                <div class="style-category initial-animation">
+                    <h3 class="category-title">👖 BOTTOMS</h3>
+                    <div class="item-grid">
+                        <button class="style-item" data-category="bottom">Baggy Jeans</button>
+                        <button class="style-item" data-category="bottom">Skinny Jeans</button>
+                        <button class="style-item" data-category="bottom">Cargo Pants</button>
+                        <button class="style-item" data-category="bottom">Joggers</button>
+                        <button class="style-item" data-category="bottom">Leather Pants</button>
+                        <button class="style-item" data-category="bottom">Shorts</button>
+                    </div>
+                </div>
+
+                <div class="style-category initial-animation">
+                    <h3 class="category-title">👟 SHOES</h3>
+                    <div class="item-grid">
+                        <button class="style-item" data-category="shoes">Air Force 1</button>
+                        <button class="style-item" data-category="shoes">Yeezy</button>
+                        <button class="style-item" data-category="shoes">Jordan</button>
+                        <button class="style-item" data-category="shoes">Timberland</button>
+                        <button class="style-item" data-category="shoes">Designer Sneakers</button>
+                        <button class="style-item" data-category="shoes">Vans</button>
+                    </div>
+                </div>
+
+                <div class="style-category initial-animation">
+                    <h3 class="category-title">💎 ACCESSORIES</h3>
+                    <div class="item-grid">
+                        <button class="style-item" data-category="accessory">Gold Chain</button>
+                        <button class="style-item" data-category="accessory">Cap/Beanie</button>
+                        <button class="style-item" data-category="accessory">Sunglasses</button>
+                        <button class="style-item" data-category="accessory">Rings</button>
+                        <button class="style-item" data-category="accessory">Backpack</button>
+                        <button class="style-item" data-category="accessory">Watch</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="avatar-display initial-animation" id="avatar">
+                👤
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn" onclick="showQuiz()">BACK TO TEST</button>
+                <button class="btn" onclick="generateMixedStyle()">COMPLETE STYLE</button>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section class="result-section initial-animation hidden" id="result-section">
+            <h2 class="result-title">YOUR HIP-HOP STYLE</h2>
+            <div class="result-text" id="result-text"></div>
+            <div class="brand-recommendations" id="brand-recommendations"></div>
+            <div class="action-buttons">
+                <button class="btn" onclick="resetTest()">RETAKE TEST</button>
+                <button class="btn" onclick="showMixer()">TRY STYLE MIXER</button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        let userAnswers = {};
+        let selectedItems = {
+            top: null,
+            bottom: null,
+            shoes: null,
+            accessory: null
+        };
+
+        // 별 생성 함수
+        function createStars() {
+            const starsContainer = document.getElementById('stars-bg');
+            const numberOfStars = 100;
+
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                // 랜덤 위치와 크기
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                const size = Math.random() * 3 + 1;
+                
+                star.style.left = `${x}%`;
+                star.style.top = `${y}%`;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                // 랜덤 애니메이션 지연
+                star.style.animationDelay = `${Math.random() * 3}s`;
+                
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // 바닥 이미지 설정 함수 (나중에 이미지 추가시 사용)
+        function setFloorImage(imageUrl) {
+            const floorContainer = document.getElementById('floor-container');
+            floorContainer.style.backgroundImage = `url('${imageUrl}')`;
+        }
+
+        // 메뉴 버튼 기능 - 메뉴 페이지로 이동
+        document.getElementById('menu-button').addEventListener('click', function() {
+            window.location.href = '../html/menupage.html';
+        });
+
+        // 초기 애니메이션 제거 함수
+        function removeInitialAnimations() {
+            const animatedElements = document.querySelectorAll('.initial-animation');
+            animatedElements.forEach(element => {
+                element.classList.remove('initial-animation');
+            });
+        }
+
+        // 페이지 로드시 별 생성 및 5초 후 애니메이션 제거
+        document.addEventListener('DOMContentLoaded', function() {
+            createStars();
+            initializeMouseEffects();
+            
+            // 5초 후 초기 애니메이션 제거
+            setTimeout(removeInitialAnimations, 5000);
+        });
+
+        // 마우스 3D 효과 초기화
+        function initializeMouseEffects() {
+            // 큰 바탕 박스(.section)는 제외하고 작은 카드들만 3D 효과 적용
+            const cards = document.querySelectorAll('.question, .style-category, .result-section');
+            
+            cards.forEach(card => {
+                card.addEventListener('mousemove', function(e) {
+                    const cardRect = this.getBoundingClientRect();
+                    const x = e.clientX - cardRect.left;
+                    const y = e.clientY - cardRect.top;
+                    
+                    const centerX = cardRect.width / 2;
+                    const centerY = cardRect.height / 2;
+                    const rotateX = (y - centerY) / 15;
+                    const rotateY = (centerX - x) / 15;
+                    
+                    this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px) scale(1.02)`;
+                    this.style.transition = 'none';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                    this.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+                });
+            });
+        }
+
+        // 버튼들에 대한 자석 효과
+        document.querySelectorAll('.btn, .option, .style-item').forEach(btn => {
+            btn.addEventListener('mousemove', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                
+                this.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px) scale(1.05)`;
+                this.style.transition = 'none';
+            });
+            
+            btn.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+                this.style.transition = 'all 0.3s ease';
+            });
+        });
+
+        // 옵션 선택 이벤트
+        document.querySelectorAll('.option').forEach(button => {
+            button.addEventListener('click', function() {
+                const question = this.dataset.question;
+                const style = this.dataset.style;
+                
+                // 같은 질문의 다른 옵션들 선택 해제
+                document.querySelectorAll(`[data-question="${question}"]`).forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+                
+                // 현재 옵션 선택
+                this.classList.add('selected');
+                userAnswers[question] = style;
+            });
+        });
+
+        // 스타일 아이템 선택 이벤트
+        document.querySelectorAll('.style-item').forEach(button => {
+            button.addEventListener('click', function() {
+                const category = this.dataset.category;
+                
+                // 같은 카테고리의 다른 아이템들 선택 해제
+                document.querySelectorAll(`[data-category="${category}"]`).forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+                
+                // 현재 아이템 선택
+                this.classList.add('selected');
+                selectedItems[category] = this.textContent;
+                updateAvatar();
+            });
+        });
+
+        function updateAvatar() {
+            const avatar = document.getElementById('avatar');
+            const selected = Object.values(selectedItems).filter(item => item !== null);
+            
+            if (selected.length > 0) {
+                avatar.innerHTML = `
+                    <div style="font-size: 1rem; color: #fff; text-align: center;">
+                        <div>✨ SELECTED STYLE ✨</div>
+                        <div style="margin-top: 10px; line-height: 1.5;">
+                            ${selected.join('<br>')}
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function calculateResult() {
+            const answers = Object.values(userAnswers);
+            if (answers.length < 3) {
+                alert('Please answer all questions!');
+                return;
+            }
+
+            // Calculate most selected style
+            const styleCounts = {};
+            answers.forEach(style => {
+                styleCounts[style] = (styleCounts[style] || 0) + 1;
+            });
+
+            const dominantStyle = Object.keys(styleCounts).reduce((a, b) => 
+                styleCounts[a] > styleCounts[b] ? a : b
+            );
+
+            showResult(dominantStyle);
+        }
+
+        function showResult(style) {
+            const resultSection = document.getElementById('result-section');
+            const resultText = document.getElementById('result-text');
+            const brandRecs = document.getElementById('brand-recommendations');
+
+            const styleResults = {
+                oldschool: {
+                    title: "OLD SCHOOL HIP-HOP VIBES 🎤",
+                    description: "You know the true roots of hip-hop! You love classic style that's comfortable yet maintains authentic hip-hop swagger.",
+                    brands: ["Timberland", "Nike Air Force 1", "Champion", "Dickies", "New Era"]
+                },
+                trendy: {
+                    title: "TRENDY HIGH-FASHION STYLE ✨",
+                    description: "You're sensitive to the latest trends and pursue experimental style! You're a stylist who creates perfect harmony between hip-hop and high fashion.",
+                    brands: ["Yeezy", "Off-White", "Fear of God", "Stone Island", "Kith"]
+                },
+                luxury: {
+                    title: "LUXURY HIP-HOP STYLE 💎",
+                    description: "Elegance and hip-hop combined! You're a true fashion icon who completes sophisticated hip-hop looks with luxury brands.",
+                    brands: ["Rick Owens", "Balenciaga", "Vetements", "Amiri", "Chrome Hearts"]
+                },
+                street: {
+                    title: "PURE STREET STYLE 🛹",
+                    description: "Real hip-hop style straight from the streets! You express your unique colors through free-spirited street fashion.",
+                    brands: ["Vans", "Thrasher", "Supreme", "Stussy", "Converse"]
+                }
+            };
+
+            const result = styleResults[style];
+            resultText.innerHTML = `
+                <h3>${result.title}</h3>
+                <p>${result.description}</p>
+            `;
+
+            brandRecs.innerHTML = result.brands.map(brand => 
+                `<div class="brand-item">${brand}</div>`
+            ).join('');
+
+            document.getElementById('quiz-section').classList.add('hidden');
+            document.getElementById('mixer-section').classList.add('hidden');
+            resultSection.classList.remove('hidden');
+        }
+
+        function generateMixedStyle() {
+            const selected = Object.entries(selectedItems).filter(([key, value]) => value !== null);
+            
+            if (selected.length < 2) {
+                alert('Please select at least 2 items!');
+                return;
+            }
+
+            const mixedStyleNames = [
+                "STREET KING/QUEEN", "FASHION TRENDSETTER", "HIP-HOP ICON", 
+                "STYLE CREATOR", "URBAN FASHIONISTA"
+            ];
+            
+            const randomStyleName = mixedStyleNames[Math.floor(Math.random() * mixedStyleNames.length)];
+            
+            const resultText = document.getElementById('result-text');
+            const brandRecs = document.getElementById('brand-recommendations');
+            
+            resultText.innerHTML = `
+                <h3>🔥 ${randomStyleName} 🔥</h3>
+                <p>Perfect combination completed! Your unique hip-hop style has been born.</p>
+                <div style="margin: 20px 0; padding: 20px; background: rgba(255,255,255,0.1); border-radius: 15px;">
+                    <strong>SELECTED STYLE:</strong><br>
+                    ${selected.map(([category, item]) => `${item}`).join(' + ')}
+                </div>
+            `;
+
+            brandRecs.innerHTML = `
+                <div class="brand-item">CUSTOM BRAND RECOMMENDATIONS</div>
+                <div class="brand-item">STYLE COMPLETE</div>
+            `;
+
+            document.getElementById('quiz-section').classList.add('hidden');
+            document.getElementById('mixer-section').classList.add('hidden');
+            document.getElementById('result-section').classList.remove('hidden');
+        }
+
+        function showQuiz() {
+            document.getElementById('quiz-section').classList.remove('hidden');
+            document.getElementById('mixer-section').classList.add('hidden');
+            document.getElementById('result-section').classList.add('hidden');
+        }
+
+        function showMixer() {
+            document.getElementById('quiz-section').classList.add('hidden');
+            document.getElementById('mixer-section').classList.remove('hidden');
+            document.getElementById('result-section').classList.add('hidden');
+        }
+
+        function resetTest() {
+            userAnswers = {};
+            selectedItems = { top: null, bottom: null, shoes: null, accessory: null };
+            
+            document.querySelectorAll('.option, .style-item').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            document.getElementById('avatar').innerHTML = '👤';
+            showQuiz();
+        }
+    </script>
+</body>
+</html>

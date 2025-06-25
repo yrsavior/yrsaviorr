@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>It's YrSavior Here</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      overflow: visible;
+      padding-top: 30px;
+      cursor: none;
+    }
+    
+    .custom-cursor {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      pointer-events: none;
+      z-index: 9999;
+      border-radius: 50%;
+      border: 2px solid #00ffff;
+      box-shadow: 
+        0 0 10px #00ffff,
+        0 0 20px #00ffff,
+        inset 0 0 10px rgba(0, 255, 255, 0.2);
+      backdrop-filter: blur(2px);
+      animation: cursorPulse 1.5s infinite ease-in-out;
+      transition: transform 0.1s ease-out;
+    }
+    
+    .cursor-trail {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      pointer-events: none;
+      z-index: 9998;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle,
+        rgba(0, 255, 255, 0.8) 0%,
+        rgba(255, 0, 255, 0.4) 50%,
+        transparent 100%
+      );
+      animation: trailFade 0.8s ease-out forwards;
+    }
+    
+    .language-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      width: 120px;
+      height: 40px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: all 0.3s ease;
+      overflow: visible;
+    }
+
+    .language-toggle svg {
+      width: 100%;
+      height: 100%;
+      stroke: #00ffff;
+      fill: rgba(0, 255, 255, 0.1);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.6));
+    }
+
+    .language-toggle-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #00ffff;
+      font-weight: bold;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-shadow: 0 0 8px rgba(0, 255, 255, 0.8);
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+      pointer-events: none;
+    }
+    
+    .language-toggle:hover {
+      transform: scale(1.1);
+    }
+
+    .language-toggle:hover svg {
+      stroke: #ff00ff;
+      fill: rgba(255, 0, 255, 0.1);
+      filter: drop-shadow(0 0 15px rgba(255, 0, 255, 0.8));
+    }
+
+    .language-toggle:hover .language-toggle-text {
+      color: #ff00ff;
+      text-shadow: 0 0 10px rgba(255, 0, 255, 0.8);
+    }
+    
+    .language-toggle:active {
+      transform: scale(0.95);
+    }
+    
+    @keyframes cursorPulse {
+      0% {
+        box-shadow: 
+          0 0 5px #00ffff,
+          0 0 10px #00ffff,
+          inset 0 0 5px rgba(0, 255, 255, 0.2);
+      }
+      50% {
+        box-shadow: 
+          0 0 15px #00ffff,
+          0 0 30px #00ffff,
+          0 0 40px #ff00ff,
+          inset 0 0 10px rgba(0, 255, 255, 0.3);
+      }
+      100% {
+        box-shadow: 
+          0 0 5px #00ffff,
+          0 0 10px #00ffff,
+          inset 0 0 5px rgba(0, 255, 255, 0.2);
+      }
+    }
+    
+    @keyframes trailFade {
+      0% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+    }
+    
+    .custom-cursor.active {
+      transform: scale(1.5);
+      animation: cursorHover 0.3s infinite alternate;
+    }
+    
+    @keyframes cursorHover {
+      0% {
+        box-shadow: 
+          0 0 15px #00ffff,
+          0 0 30px #00ffff,
+          0 0 40px #ff00ff,
+          inset 0 0 15px rgba(255, 255, 255, 0.3);
+      }
+      100% {
+        box-shadow: 
+          0 0 25px #00ffff,
+          0 0 50px #00ffff,
+          0 0 60px #ff00ff,
+          0 0 80px #ffff00,
+          inset 0 0 20px rgba(255, 255, 255, 0.4);
+      }
+    }
+    
+    .container {
+      text-align: center;
+      width: 80%;
+      max-width: 1200px;
+      position: relative;
+      height: 100%;
+      z-index: 1;
+    }
+    
+    .stars-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+    
+    .star {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background-color: #fff;
+      border-radius: 50%;
+      box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.7);
+      animation: twinkle var(--twinkle-duration) ease-in-out infinite;
+    }
+    
+    .fireworks-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+    
+    .firework {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      transform-origin: center;
+      opacity: 0;
+      animation: explode var(--explode-duration) ease-out forwards;
+    }
+    
+    @keyframes explode {
+      0% {
+        transform: translate(0, 0);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(
+          calc(var(--dx) * var(--distance)),
+          calc(var(--dy) * var(--distance))
+        );
+        opacity: 0;
+      }
+    }
+    
+    .planets-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      overflow: visible;
+    }
+    
+    .planet {
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      opacity: 0.8;
+      animation: planetGlow 8s ease-in-out infinite;
+      filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.4));
+      object-fit: contain;
+      pointer-events: none;
+      border-radius: 0;
+    }
+    
+    .planet1 {
+      top: 10%;
+      left: 5%;
+      transform: scale(0.8);
+      filter: drop-shadow(0 0 15px rgba(138, 43, 226, 0.6));
+      animation: planetGlow 8s ease-in-out infinite, orbit1 120s linear infinite, rotate1 60s linear infinite;
+    }
+    
+    .planet2 {
+      top: 70%;
+      left: 10%;
+      transform: scale(0.7);
+      filter: drop-shadow(0 0 15px rgba(32, 178, 170, 0.6));
+      animation: planetGlow 8s ease-in-out infinite, orbit2 90s linear infinite, rotate2 45s linear infinite;
+    }
+    
+    .planet3 {
+      top: 15%;
+      right: 5%;
+      transform: scale(0.85);
+      filter: drop-shadow(0 0 15px rgba(255, 69, 0, 0.6));
+      animation: planetGlow 8s ease-in-out infinite, orbit3 150s linear infinite, rotate3 75s linear infinite;
+    }
+    
+    .planet4 {
+      bottom: 15%;
+      right: 8%;
+      transform: scale(0.75);
+      filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.6));
+      animation: planetGlow 8s ease-in-out infinite, orbit4 180s linear infinite, rotate4 90s linear infinite;
+      position: absolute;
+    }
+    
+    @keyframes planetGlow {
+      0%, 100% {
+        opacity: 0.8;
+        filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.4));
+      }
+      50% {
+        opacity: 1;
+        filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.7));
+      }
+    }
+    
+    @keyframes orbit1 {
+      0% {
+        transform: translate(0, 0) scale(0.8) rotate(0deg);
+      }
+      25% {
+        transform: translate(20px, 15px) scale(0.8) rotate(90deg);
+      }
+      50% {
+        transform: translate(0, 30px) scale(0.8) rotate(180deg);
+      }
+      75% {
+        transform: translate(-20px, 15px) scale(0.8) rotate(270deg);
+      }
+      100% {
+        transform: translate(0, 0) scale(0.8) rotate(360deg);
+      }
+    }
+    
+    @keyframes orbit2 {
+      0% {
+        transform: translate(0, 0) scale(0.7) rotate(0deg);
+      }
+      25% {
+        transform: translate(-15px, -20px) scale(0.7) rotate(90deg);
+      }
+      50% {
+        transform: translate(-30px, 0) scale(0.7) rotate(180deg);
+      }
+      75% {
+        transform: translate(-15px, 20px) scale(0.7) rotate(270deg);
+      }
+      100% {
+        transform: translate(0, 0) scale(0.7) rotate(360deg);
+      }
+    }
+    
+    @keyframes orbit3 {
+      0% {
+        transform: translate(0, 0) scale(0.85) rotate(0deg);
+      }
+      25% {
+        transform: translate(-25px, 20px) scale(0.85) rotate(90deg);
+      }
+      50% {
+        transform: translate(0, 40px) scale(0.85) rotate(180deg);
+      }
+      75% {
+        transform: translate(25px, 20px) scale(0.85) rotate(270deg);
+      }
+      100% {
+        transform: translate(0, 0) scale(0.85) rotate(360deg);
+      }
+    }
+    
+    @keyframes orbit4 {
+      0% {
+        transform: translate(0, 0) scale(0.75) rotate(0deg);
+      }
+      25% {
+        transform: translate(30px, -15px) scale(0.75) rotate(90deg);
+      }
+      50% {
+        transform: translate(0, -30px) scale(0.75) rotate(180deg);
+      }
+      75% {
+        transform: translate(-30px, -15px) scale(0.75) rotate(270deg);
+      }
+      100% {
+        transform: translate(0, 0) scale(0.75) rotate(360deg);
+      }
+    }
+    
+    @keyframes rotate1 {
+      0% { transform: rotate(0deg) scale(0.8); }
+      100% { transform: rotate(360deg) scale(0.8); }
+    }
+    
+    @keyframes rotate2 {
+      0% { transform: rotate(0deg) scale(0.7); }
+      100% { transform: rotate(360deg) scale(0.7); }
+    }
+    
+    @keyframes rotate3 {
+      0% { transform: rotate(0deg) scale(0.85); }
+      100% { transform: rotate(360deg) scale(0.85); }
+    }
+    
+    @keyframes rotate4 {
+      0% { transform: rotate(0deg) scale(0.75); }
+      100% { transform: rotate(360deg) scale(0.75); }
+    }
+    
+    @keyframes twinkle {
+      0%, 100% {
+        opacity: 0.3;
+        transform: scale(0.8);
+        box-shadow: 0 0 5px 1px rgba(255, 255, 255, 0.3);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.2);
+        box-shadow: 0 0 15px 3px rgba(255, 255, 255, 0.8);
+      }
+    }
+    
+    .logo-container {
+      margin-bottom: 20px;
+      transform: translateY(-10px);
+    }
+    
+    .logo-image {
+      width: 600px;
+      height: auto;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    @keyframes sparkle {
+      0% {
+        filter: brightness(1);
+      }
+      50% {
+        filter: brightness(1.8) drop-shadow(0 0 20px rgba(255, 255, 255, 0.8));
+      }
+      100% {
+        filter: brightness(1);
+      }
+    }
+    
+    .content-area {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      position: relative;
+      margin-top: -50px;
+    }
+    
+    .icon-container {
+      position: relative;
+      height: 600px;
+      width: 50%;
+      margin: 10px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .icon {
+      position: absolute;
+      width: 650px;
+      height: 650px;
+      display: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .icon.active {
+      display: block;
+      animation: popUp 0.7s ease, glowing 2s infinite;
+    }
+    
+    .icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    
+    .bubble-container {
+      position: absolute;
+      left: 30px;
+      top: 40%;
+      transform: translateY(-50%);
+      width: 500px;
+      height: 280px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2;
+    }
+
+    .bubble-container-second {
+      position: absolute;
+      right: -50px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 480px;
+      height: 480px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2;
+    }
+
+    .bubble {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      animation: floatBubble 4s ease-in-out infinite;
+      cursor: pointer;
+    }
+
+    .bubble svg {
+      width: 100%;
+      height: 100%;
+      stroke: #00ffff;
+      fill: rgba(0, 255, 255, 0.1);
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 15px rgba(0, 255, 255, 0.6));
+      animation: colorShift 12s linear infinite;
+    }
+
+    .bubble-second {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      animation: floatBubbleSecond 4s ease-in-out infinite;
+      cursor: pointer;
+    }
+
+    .bubble-second svg {
+      width: 100%;
+      height: 100%;
+      stroke: #ff00ff;
+      fill: rgba(255, 0, 255, 0.1);
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 15px rgba(255, 0, 255, 0.6));
+      animation: colorShiftSecond 12s linear infinite;
+    }
+
+    .bubble .bubble-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 70%;
+      height: 70%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2;
+      text-align: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .bubble-second .bubble-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 70%;
+      height: 70%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2;
+      text-align: center;
+      padding: 25px;
+      box-sizing: border-box;
+    }
+
+    .bubble-text {
+      font-size: 24px;
+      font-weight: bold;
+      color: #00ffff;
+      text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+      letter-spacing: 1px;
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.1;
+    }
+
+    .bubble-text-second {
+      font-size: 16px;
+      line-height: 1.3;
+      color: #ffffff;
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+    }
+
+    .bubble-text-second strong {
+      color: #ff00ff;
+      font-weight: bold;
+      text-shadow: 0 0 10px rgba(255, 0, 255, 0.8);
+    }
+
+    .bubble-text-second em {
+      color: #00ffff;
+      font-style: italic;
+      text-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
+    }
+    
+    .bubble.active, .bubble-second.active {
+      display: block;
+      opacity: 1;
+      animation: popUp 0.7s ease, floatBubble 4s ease-in-out infinite;
+    }
+    
+    .bubble-second.active {
+      animation: popUp 0.7s ease, floatBubbleSecond 4s ease-in-out infinite;
+    }
+    
+    .bubble:hover svg {
+      stroke: #ff00ff;
+      animation: neonFlicker 1s infinite;
+    }
+    
+    .bubble-second:hover svg {
+      stroke: #ffff00;
+      animation: neonFlicker 1s infinite;
+    }
+    
+    @keyframes floatBubble {
+      0%, 100% {
+        transform: translateY(-50%) translateX(0) rotate(0deg);
+      }
+      25% {
+        transform: translateY(-55%) translateX(-5px) rotate(-1deg);
+      }
+      50% {
+        transform: translateY(-48%) translateX(5px) rotate(1deg);
+      }
+      75% {
+        transform: translateY(-52%) translateX(-3px) rotate(0deg);
+      }
+    }
+    
+    @keyframes floatBubbleSecond {
+      0%, 100% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+      }
+      25% {
+        transform: translateY(-5px) translateX(3px) rotate(0.5deg);
+      }
+      50% {
+        transform: translateY(4px) translateX(-3px) rotate(-0.5deg);
+      }
+      75% {
+        transform: translateY(-3px) translateX(2px) rotate(0.3deg);
+      }
+    }
+    
+    @keyframes colorShift {
+      0% {
+        filter: drop-shadow(0 0 15px rgba(0, 255, 255, 0.6));
+      }
+      33% {
+        filter: drop-shadow(0 0 15px rgba(128, 0, 255, 0.6));
+      }
+      66% {
+        filter: drop-shadow(0 0 15px rgba(255, 0, 128, 0.6));
+      }
+      100% {
+        filter: drop-shadow(0 0 15px rgba(0, 255, 255, 0.6));
+      }
+    }
+    
+    @keyframes colorShiftSecond {
+      0% {
+        filter: drop-shadow(0 0 15px rgba(255, 0, 255, 0.6));
+      }
+      33% {
+        filter: drop-shadow(0 0 15px rgba(255, 255, 0, 0.6));
+      }
+      66% {
+        filter: drop-shadow(0 0 15px rgba(0, 255, 128, 0.6));
+      }
+      100% {
+        filter: drop-shadow(0 0 15px rgba(255, 0, 255, 0.6));
+      }
+    }
+    
+    @keyframes popUp {
+      0% {
+        transform: scale(0);
+        opacity: 0;
+      }
+      60% {
+        transform: scale(1.2);
+        opacity: 1;
+      }
+      80% {
+        transform: scale(0.9);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+    
+    @keyframes glowing {
+      0% {
+        filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
+      }
+      50% {
+        filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.7));
+      }
+      100% {
+        filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
+      }
+    }
+    
+    .progress-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 100px;
+      position: absolute;
+      bottom: 50px;
+      left: 0;
+      right: 0;
+    }
+    
+    .progress-dot {
+      width: 12px;
+      height: 12px;
+      background-color: #333;
+      border-radius: 50%;
+      margin: 0 8px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .progress-dot:hover {
+      background-color: #555;
+      transform: scale(1.1);
+    }
+    
+    .progress-dot.active {
+      background-color: white;
+      transform: scale(1.2);
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+    }
+
+    .slider-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 80px;
+    }
+
+    .slider-button {
+      width: 120px;
+      height: 80px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: visible;
+    }
+
+    .slider-button svg {
+      width: 100%;
+      height: 100%;
+      stroke: #00ffff;
+      fill: none;
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 15px rgba(0, 255, 255, 0.8));
+    }
+
+    @keyframes neonGradient {
+      0%, 100% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+    }
+
+    @keyframes neonFlicker {
+      0%, 100% {
+        filter: 
+          drop-shadow(0 0 15px rgba(0, 255, 255, 0.8))
+          drop-shadow(0 0 30px rgba(0, 255, 255, 0.6));
+      }
+      25% {
+        filter: 
+          drop-shadow(0 0 20px rgba(255, 0, 255, 0.9))
+          drop-shadow(0 0 35px rgba(255, 0, 255, 0.7));
+      }
+      50% {
+        filter: 
+          drop-shadow(0 0 25px rgba(255, 255, 0, 0.8))
+          drop-shadow(0 0 40px rgba(255, 255, 0, 0.6));
+      }
+      75% {
+        filter: 
+          drop-shadow(0 0 30px rgba(0, 255, 0, 0.8))
+          drop-shadow(0 0 45px rgba(0, 255, 0, 0.6));
+      }
+    }
+
+    .slider-button:hover {
+      transform: scale(1.1);
+    }
+
+    .slider-button:hover svg {
+      stroke: #ff00ff;
+      animation: neonFlicker 1s infinite;
+    }
+
+    .slider-button:active {
+      transform: scale(0.95);
+    }
+
+    @media (max-width: 1200px) {
+      .content-area {
+        flex-direction: column;
+      }
+      
+      .icon-container {
+        width: 100%;
+      }
+      
+      .bubble-container {
+        position: relative;
+        right: 0;
+        left: 0;
+        top: 0;
+        transform: none;
+        margin-top: 30px;
+      }
+      
+      .bubble-container-second {
+        position: relative;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        transform: none;
+        margin-top: 20px;
+        width: 100%;
+        height: 300px;
+      }
+      
+      .planet {
+        transform: scale(0.5);
+        opacity: 0.6;
+      }
+
+      .bubble-text {
+        font-size: 20px;
+      }
+
+      .bubble-text-second {
+        font-size: 13px;
+      }
+      
+      .language-toggle {
+        top: 15px;
+        right: 15px;
+        width: 100px;
+        height: 35px;
+      }
+      
+      .language-toggle-text {
+        font-size: 11px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="language-toggle" id="languageToggle" onclick="toggleLanguage()">
+    <svg viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg">
+      <rect x="5" y="5" width="110" height="30" rx="15" ry="15" />
+    </svg>
+    <span class="language-toggle-text" id="languageToggleText">KOREAN</span>
+  </button>
+
+  <div class="stars-container" id="starsContainer"></div>
+  <div class="fireworks-container" id="fireworksContainer"></div>
+  
+  <div class="planets-container">
+    <img src="../img/planet1.png" alt="Planet 1" class="planet planet1">
+    <img src="../img/planet2.png" alt="Planet 2" class="planet planet2">
+    <img src="../img/planet3.png" alt="Planet 3" class="planet planet3">
+    <img src="../img/planet4.png" alt="Planet 4" class="planet planet4">
+  </div>
+  
+  <div class="container">
+    <div class="custom-cursor" id="customCursor"></div>
+    
+    <div class="logo-container">
+      <img src="../img/title.png" alt="로고 이미지" class="logo-image" id="logoImage" onclick="returnToPrevious()">
+    </div>
+    
+    <div class="content-area">
+      <div class="bubble-container">
+        <div class="bubble active" id="bubble1" onclick="navigateToPage('mystyle')">
+          <svg viewBox="0 0 500 280" xmlns="http://www.w3.org/2000/svg">
+            <path d="M45 85 C40 78, 38 72, 44 68 C52 65, 58 70, 65 68 L380 62 C388 61, 395 66, 398 72 C400 78, 396 84, 402 88 L415 200 C418 208, 414 215, 408 218 C402 221, 396 218, 390 220 L78 228 C70 229, 63 224, 60 218 C57 212, 61 206, 55 202 L42 92 C39 86, 42 80, 45 85 M85 235 C83 230, 78 228, 75 232 L68 245 C65 250, 67 255, 72 258 C77 261, 82 258, 88 260 L95 250 C98 245, 94 240, 90 238 C86 236, 87 233, 85 235 Z" />
+          </svg>
+          <div class="bubble-content">
+            <div class="bubble-text" data-en="Build Your Fit, Own Your Flow!" data-ko="나만의 핏을 만들어, 스타일을 완성하자!">Build Your Fit, Own Your Flow!</div>
+          </div>
+        </div>
+        <div class="bubble" id="bubble2" onclick="navigateToPage('stylemixer')">
+          <svg viewBox="0 0 500 280" xmlns="http://www.w3.org/2000/svg">
+            <path d="M42 78 C37 71, 35 65, 41 61 C49 58, 55 63, 62 61 L385 55 C393 54, 400 59, 403 65 C405 71, 401 77, 407 81 L420 195 C423 203, 419 210, 413 213 C407 216, 401 213, 395 215 L75 223 C67 224, 60 219, 57 213 C54 207, 58 201, 52 197 L39 85 C36 79, 39 73, 42 78 M88 240 C86 235, 81 233, 78 237 L71 250 C68 255, 70 260, 75 263 C80 266, 85 263, 91 265 L98 255 C101 250, 97 245, 93 243 C89 241, 90 238, 88 240 Z" />
+          </svg>
+          <div class="bubble-content">
+            <div class="bubble-text" data-en="What's Your Hip-Hop Vibe?" data-ko="너의 힙합 바이브는 뭐야?">What's Your Hip-Hop Vibe?</div>
+          </div>
+        </div>
+        <div class="bubble" id="bubble3" onclick="navigateToPage('signature')">
+          <svg viewBox="0 0 500 280" xmlns="http://www.w3.org/2000/svg">
+            <path d="M48 82 C43 75, 41 69, 47 65 C55 62, 61 67, 68 65 L375 59 C383 58, 390 63, 393 69 C395 75, 391 81, 397 85 L410 198 C413 206, 409 213, 403 216 C397 219, 391 216, 385 218 L80 226 C72 227, 65 222, 62 216 C59 210, 63 204, 57 200 L44 89 C41 83, 44 77, 48 82 M82 242 C80 237, 75 235, 72 239 L65 252 C62 257, 64 262, 69 265 C74 268, 79 265, 85 267 L92 257 C95 252, 91 247, 87 245 C83 243, 84 240, 82 242 Z" />
+          </svg>
+          <div class="bubble-content">
+            <div class="bubble-text" data-en="Rappers Style Files" data-ko="래퍼들의 스타일 파일">Rappers Style Files</div>
+          </div>
+        </div>
+        <div class="bubble" id="bubble4" onclick="navigateToPage('accessory')">
+          <svg viewBox="0 0 500 280" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 80 C45 73, 43 67, 49 63 C57 60, 63 65, 70 63 L378 57 C386 56, 393 61, 396 67 C398 73, 394 79, 400 83 L413 196 C416 204, 412 211, 406 214 C400 217, 394 214, 388 216 L82 224 C74 225, 67 220, 64 214 C61 208, 65 202, 59 198 L46 87 C43 81, 46 75, 50 80 M90 238 C88 233, 83 231, 80 235 L73 248 C70 253, 72 258, 77 261 C82 264, 87 261, 93 263 L100 253 C103 248, 99 243, 95 241 C91 239, 92 236, 90 238 Z" />
+          </svg>
+          <div class="bubble-content">
+            <div class="bubble-text" data-en="Drip Harder. Shine Louder!" data-ko="더 쩔게, 더 빛나게!">Drip Harder. Shine Louder!</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="icon-container">
+        <div class="icon active" id="icon1" onclick="navigateToPage('mystyle')">
+          <img src="../img/mystyle.gif" alt="아이콘 1">
+        </div>
+        <div class="icon" id="icon2" onclick="navigateToPage('stylemixer')">
+          <img src="../img/stylemixer.gif" alt="아이콘 2">
+        </div>
+        <div class="icon" id="icon3" onclick="navigateToPage('signature')">
+          <img src="../img/signature.gif" alt="아이콘 3">
+        </div>
+        <div class="icon" id="icon4" onclick="navigateToPage('accessory')">
+          <img src="../img/accessory.gif" alt="아이콘 4">
+        </div>
+      </div>
+      
+      <div class="bubble-container-second">
+        <div class="bubble-second active" id="bubble-second1" onclick="navigateToPage('mystyle')">
+          <svg viewBox="0 0 480 480" xmlns="http://www.w3.org/2000/svg">
+            <path d="M60 85 C55 78, 53 72, 59 68 C67 65, 73 70, 80 68 L405 62 C413 61, 420 66, 423 72 C425 78, 421 84, 427 88 L440 380 C443 388, 439 395, 433 398 C427 401, 421 398, 415 400 L78 408 C70 409, 63 404, 60 398 C57 392, 61 386, 55 382 L42 92 C39 86, 42 80, 45 85 C48 90, 55 88, 60 85 M360 435 C362 430, 367 428, 370 432 L377 445 C380 450, 378 455, 373 458 C368 461, 363 458, 357 460 L350 450 C347 445, 351 440, 355 438 C359 436, 358 433, 360 435 Z" />
+          </svg>
+          <div class="bubble-content">
+            <div class="bubble-text-second" 
+                 data-en="<strong>From tees to kicks — you're in charge of the mix.</strong><br><br>Street? Luxury? Vintage? Pick your vibe and build your own hip-hop persona. Done styling? We'll match you with the rapper whose style vibes with yours.<br><br><strong>Whose vibe matches yours the most? Let's f*cking find out.</strong>"
+                 data-ko="<strong>티셔츠부터 킥까지 — 너가 믹스의 주인이야.</strong><br><br>스트릿? 럭셔리? 빈티지? 네 바이브를 골라서 너만의 힙합 페르소나를 만들어봐. 스타일링 끝났어? 너와 스타일이 맞는 래퍼를 매칭해줄게.<br><br><strong>누구랑 제일 바이브가 맞는지 찾아보자!</strong>">
+              <strong>From tees to kicks — you're in charge of the mix.</strong><br><br>
+              Street? Luxury? Vintage? Pick your vibe and build your own hip-hop persona. Done styling? We'll match you with the rapper whose style vibes with yours.<br><br>
+              <strong>Whose vibe matches yours the most? Let's f*cking find out.</strong>
+            </div>
+          </div>
+        </div>
+        <div class="bubble-second" id="bubble-second2" onclick="navigateToPage('stylemixer')">
+          <svg viewBox="0 0 480 480" xmlns="http://www.w3.org/2000/svg">
+            <path d="M65 82 C60 75, 58 69, 64 65 C72 62, 78 67, 85 65 L410 59 C418 58, 425 63, 428 69 C430 75, 426 81, 432 85 L445 377 C448 385, 444 392, 438 395 C432 398, 426 395, 420 397 L83 405 C75 406, 68 401, 65 395 C62 389, 66 383, 60 379 L47 89 C44 83, 47 77, 50 82 C53 87, 60 85, 65 82 M365 432 C367 427, 372 425, 375 429 L382 442 C385 447, 383 452, 378 455 C373 458, 368 455, 362 457 L355 447 C352 442, 356 437, 360 435 C364 433, 363 430, 365 432 Z" />
+          </svg>
+          <div class="bubble-content">
+            <div class="bubble-text-second"
+                 data-en="<strong>Find your perfect hip-hop vibe — style & brands included.</strong><br><br>Take a quick test, and we'll hook you up with the exact looks your favorite hip-hop artists rock.<br><br><strong>Shoot!</strong> Just like that, we match your mood with the dopest fits.<br><br>Styling tips? Got you.<br><br>Let's find <em>your</em> hip-hop identity,<br>and <strong>style the hell outta it.</strong>"
+                 data-ko="<strong>너만의 완벽한 힙합 바이브를 찾아줄게 — 스타일 & 브랜드 포함.</strong><br><br>간단한 테스트만 하면, 네가 좋아하는 힙합 아티스트들이 입는 정확한 룩을 연결해줄게.<br><br><strong>빵!</strong> 이렇게 바로, 네 무드에 맞는 개쩌는 핏들을 매칭해줘.<br><br>스타일링 팁? 당연히 있지.<br><br><em>너만의</em> 힙합 아이덴티티를 찾아서,<br><strong>최고로 스타일 해보자!</strong>">
+              <strong>Find your perfect hip-hop vibe — style & brands included.</strong><br><br>
+              Take a quick test, and we'll hook you up with the exact looks your favorite hip-hop artists rock.<br><br>
+              <strong>Shoot!</strong> Just like that, we match your mood with the dopest fits.<br><br>
+              Styling tips? Got you.<br><br>
+              Let's find <em>your</em> hip-hop identity,<br>
+              and <strong>style the hell outta it.</strong>
+            </div>
+          </div>
+        </div>
+        <div class="bubble-second" id="bubble-second3" onclick="navigateToPage('signature')">
+          <svg viewBox="0 0 480 480" xmlns="http://www.w3.org/2000/svg">
+            <path d="M58 88 C53 81, 51 75, 57 71 C65 68, 71 73, 78 71 L403 65 C411 64, 418 69, 421 75 C423 81, 419 87, 425 91 L438 383 C441 391, 437 398, 431 401 C425 404, 419 401, 413 403 L76 411 C68 412, 61 407, 58 401 C55 395, 59 389, 53 385 L40 95 C37 89, 40 83, 43 88 C46 93, 53 91, 58 88 M358 438 C360 433, 365 431, 368 435 L375 448 C378 453, 376 458, 371 461 C366 464, 361 461, 355 463 L348 453 C345 448, 349 443, 353 441 C357 439, 356 436, 358 438 Z" />
+          </svg>
+          <div class="bubble-content">
+            <div class="bubble-text-second"
+                 data-en="<strong>Spitting bars ain't enough — you gotta dress the part too. Right?</strong><br><br>We broke down every damn signature look from your favorite rappers. These days, hip-hop is a full-package vibe — music <em>and</em> style. So pick the MOOD that hits your SHXT.<br><br><strong>This is the damn spot. Let's dig in.</strong>"
+                 data-ko="<strong>랩만 하는 걸로는 부족해 — 옷도 제대로 입어야지. 맞지?</strong><br><br>네가 좋아하는 래퍼들의 모든 시그니처 룩을 분석했어. 요즘 힙합은 풀 패키지 바이브야 — 음악 <em>그리고</em> 스타일. 그러니까 네 마음에 와닿는 무드를 골라봐.<br><br><strong>여기가 바로 그 자리야. 파보자!</strong>">
+              <strong>Spitting bars ain't enough — you gotta dress the part too. Right?</strong><br><br>
+              We broke down every damn signature look from your favorite rappers. These days, hip-hop is a full-package vibe — music <em>and</em> style. So pick the MOOD that hits your SHXT.<br><br>
+              <strong>This is the damn spot. Let's dig in.</strong>
+            </div>
+          </div>
+        </div>
+        <div class="bubble-second" id="bubble-second4" onclick="navigateToPage('accessory')">
+          <svg viewBox="0 0 480 480" xmlns="http://www.w3.org/2000/svg">
+            <path d="M62 85 C57 78, 55 72, 61 68 C69 65, 75 70, 82 68 L407 62 C415 61, 422 66, 425 72 C427 78, 423 84, 429 88 L442 380 C445 388, 441 395, 435 398 C429 401, 423 398, 417 400 L80 408 C72 409, 65 404, 62 398 C59 392, 63 386, 57 382 L44 92 C41 86, 44 80, 47 85 C50 90, 57 88, 62 85 M362 435 C364 430, 369 428, 372 432 L379 445 C382 450, 380 455, 375 458 C370 461, 365 458, 359 460 L352 450 C349 445, 353 440, 357 438 C361 436, 360 433, 362 435 Z" />
+          </svg>
+          <div class="bubble-content">
+            <div class="bubble-text-second"
+                 data-en="<strong>Braids or dreads — the vibe hits different from the top.</strong><br><br>Chains, grills, bandanas — accessories <em>are</em> the attitude. We gathered all the signature looks from the dopest artists. <strong>DRIP?</strong> It's all in the details.<br><br><strong>We're going in — no cap, no brakes!</strong>"
+                 data-ko="<strong>브레이드든 드레드든 — 위에서부터 바이브가 달라져.</strong><br><br>체인, 그릴, 반다나 — 액세서리가 <em>바로</em> 태도야. 가장 쩌는 아티스트들의 모든 시그니처 룩을 모았어. <strong>드립?</strong> 다 디테일에 있다고.<br><br><strong>우리 들어간다 — 노캡, 노브레이크!</strong>">
+              <strong>Braids or dreads — the vibe hits different from the top.</strong><br><br>
+              Chains, grills, bandanas — accessories <em>are</em> the attitude. We gathered all the signature looks from the dopest artists. <strong>DRIP?</strong> It's all in the details.<br><br>
+              <strong>We're going in — no cap, no brakes!</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="slider-buttons" style="position: absolute; bottom: 120px; left: 50%; transform: translateX(-50%); z-index: 3;">
+    <button class="slider-button" id="prevBtn" onclick="showIconByIndex(currentIconIndex === 1 ? 4 : currentIconIndex - 1)">
+      <svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">
+        <path d="M85 15 C80 12, 75 18, 72 22 L45 35 C42 38, 38 42, 35 45 L20 40 C18 41, 19 43, 22 45 L35 50 C38 53, 42 57, 45 60 L72 73 C75 77, 80 83, 85 80 M90 45 C88 42, 85 45, 82 47 L78 50 C76 52, 74 54, 76 56 L80 58 C82 60, 85 63, 88 60 C90 58, 88 55, 90 52 C92 50, 90 47, 90 45 Z" />
+      </svg>
+    </button>
+    <button class="slider-button" id="nextBtn" onclick="showIconByIndex(currentIconIndex === 4 ? 1 : currentIconIndex + 1)">
+      <svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">
+        <path d="M35 15 C40 12, 45 18, 48 22 L75 35 C78 38, 82 42, 85 45 L100 40 C102 41, 101 43, 98 45 L85 50 C82 53, 78 57, 75 60 L48 73 C45 77, 40 83, 35 80 M30 45 C32 42, 35 45, 38 47 L42 50 C44 52, 46 54, 44 56 L40 58 C38 60, 35 63, 32 60 C30 58, 32 55, 30 52 C28 50, 30 47, 30 45 Z" />
+      </svg>
+    </button>
+  </div>
+  
+  <div class="progress-container">
+    <div class="progress-dot active" data-index="1"></div>
+    <div class="progress-dot" data-index="2"></div>
+    <div class="progress-dot" data-index="3"></div>
+    <div class="progress-dot" data-index="4"></div>
+  </div>
+  
+  <script>
+    let currentIconIndex = 1;
+    const totalIcons = 4;
+    let isKorean = false;
+    
+    const pageURLs = {
+      'mystyle': '../html/mystyle.html',
+      'stylemixer': '../html/stylemixer.html',
+      'signature': '../html/signature.html',
+      'accessory': '../html/accessory.html'
+    };
+    
+    function toggleLanguage() {
+      playClickSound();
+      isKorean = !isKorean;
+      
+      const buttonText = document.getElementById('languageToggleText');
+      
+      // 버튼 텍스트 변경
+      if (isKorean) {
+        buttonText.textContent = 'ENGLISH';
+      } else {
+        buttonText.textContent = 'KOREAN';
+      }
+      
+      // 모든 텍스트 요소들을 찾아서 언어 변경
+      const textElements = document.querySelectorAll('[data-en][data-ko]');
+      
+      textElements.forEach(element => {
+        const englishText = element.getAttribute('data-en');
+        const koreanText = element.getAttribute('data-ko');
+        
+        if (isKorean) {
+          element.innerHTML = koreanText;
+        } else {
+          element.innerHTML = englishText;
+        }
+      });
+      
+      // 언어 변경 효과
+      createFirework(85, 15);
+      
+      // 버튼 애니메이션
+      const button = document.getElementById('languageToggle');
+      button.style.transform = 'scale(1.2)';
+      setTimeout(() => {
+        button.style.transform = 'scale(1)';
+      }, 200);
+    }
+    
+    function playPopSound() {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+      oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.3);
+      
+      gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.3);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.3);
+    }
+    
+    function playClickSound() {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.setValueAtTime(1000, audioContext.currentTime);
+      oscillator.frequency.exponentialRampToValueAtTime(600, audioContext.currentTime + 0.1);
+      
+      gainNode.gain.setValueAtTime(0.08, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.1);
+    }
+    
+    function playHoverSound() {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.setValueAtTime(600, audioContext.currentTime);
+      oscillator.frequency.exponentialRampToValueAtTime(800, audioContext.currentTime + 0.05);
+      
+      gainNode.gain.setValueAtTime(0.05, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.05);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.05);
+    }
+    
+    function playSparkleSound() {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      
+      for (let i = 0; i < 3; i++) {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        const frequencies = [800, 1200, 1600];
+        oscillator.frequency.setValueAtTime(frequencies[i], audioContext.currentTime);
+        
+        gainNode.gain.setValueAtTime(0.03, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.2);
+        
+        oscillator.start(audioContext.currentTime + i * 0.05);
+        oscillator.stop(audioContext.currentTime + 0.2 + i * 0.05);
+      }
+    }
+    
+    function showIconByIndex(index) {
+      playPopSound();
+      
+      const oldIcon = document.getElementById(`icon${currentIconIndex}`);
+      oldIcon.style.animation = 'none';
+      
+      for (let i = 1; i <= totalIcons; i++) {
+        document.getElementById(`icon${i}`).classList.remove('active');
+        document.getElementById(`bubble${i}`).classList.remove('active');
+        document.getElementById(`bubble-second${i}`).classList.remove('active');
+        document.querySelector(`.progress-dot[data-index="${i}"]`).classList.remove('active');
+      }
+      
+      document.getElementById(`icon${index}`).classList.add('active');
+      document.getElementById(`bubble${index}`).classList.add('active');
+      document.getElementById(`bubble-second${index}`).classList.add('active');
+      document.querySelector(`.progress-dot[data-index="${index}"]`).classList.add('active');
+      
+      createFirework(50, 50);
+      
+      currentIconIndex = index;
+    }
+    
+    function navigateToPage(pageName) {
+      playClickSound();
+      
+      const icon = document.getElementById(`icon${currentIconIndex}`);
+      icon.style.animation = 'glitch 0.2s 2, glowing 2s infinite';
+      
+      createFirework(50, 50);
+      
+      setTimeout(() => {
+        window.location.href = pageURLs[pageName];
+      }, 500);
+    }
+    
+    function returnToPrevious() {
+      playSparkleSound();
+      
+      const logoImage = document.getElementById('logoImage');
+      logoImage.style.animation = 'sparkle 1s ease-in-out';
+      
+      createFirework(30, 20);
+      createFirework(70, 20);
+      
+      setTimeout(function() {
+        window.location.href = '../html/index.html';
+      }, 800);
+    }
+    
+    function createStars() {
+      const starsContainer = document.getElementById('starsContainer');
+      const numStars = 100;
+      
+      for (let i = 0; i < numStars; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        
+        const randomX = Math.floor(Math.random() * 100);
+        const randomY = Math.floor(Math.random() * 100);
+        star.style.left = `${randomX}%`;
+        star.style.top = `${randomY}%`;
+        
+        const randomSize = Math.floor(Math.random() * 4) + 1;
+        star.style.width = `${randomSize}px`;
+        star.style.height = `${randomSize}px`;
+        
+        const animationDuration = Math.random() * 3 + 2;
+        star.style.setProperty('--twinkle-duration', `${animationDuration}s`);
+        
+        const animationDelay = Math.random() * 5;
+        star.style.animationDelay = `${animationDelay}s`;
+        
+        starsContainer.appendChild(star);
+      }
+    }
+    
+    function createFirework(x, y) {
+      const fireworksContainer = document.getElementById('fireworksContainer');
+      const colors = [
+        '#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff',
+        '#ff8800', '#ff0088', '#8800ff', '#00ff88', '#88ff00', '#0088ff'
+      ];
+      
+      const numParticles = 30 + Math.floor(Math.random() * 20);
+      
+      const centerX = (x / 100) * window.innerWidth;
+      const centerY = (y / 100) * window.innerHeight;
+      
+      for (let i = 0; i < numParticles; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'firework';
+        
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        particle.style.backgroundColor = color;
+        particle.style.boxShadow = `0 0 6px ${color}, 0 0 12px ${color}`;
+        
+        particle.style.left = `${centerX}px`;
+        particle.style.top = `${centerY}px`;
+        
+        const angle = Math.random() * Math.PI * 2;
+        const dx = Math.cos(angle);
+        const dy = Math.sin(angle);
+        
+        const distance = 50 + Math.random() * 100;
+        
+        particle.style.setProperty('--dx', dx);
+        particle.style.setProperty('--dy', dy);
+        particle.style.setProperty('--distance', `${distance}px`);
+        
+        const duration = 0.8 + Math.random() * 1;
+        particle.style.setProperty('--explode-duration', `${duration}s`);
+        
+        fireworksContainer.appendChild(particle);
+        
+        setTimeout(() => {
+          if (particle.parentNode === fireworksContainer) {
+            fireworksContainer.removeChild(particle);
+          }
+        }, duration * 1000);
+      }
+    }
+    
+    function startRandomFireworks() {
+      setInterval(() => {
+        const x = Math.random() * 100;
+        const y = Math.random() * 100;
+        createFirework(x, y);
+      }, 2000);
+    }
+    
+    function createClickEffect(e) {
+      const x = (e.clientX / window.innerWidth) * 100;
+      const y = (e.clientY / window.innerHeight) * 100;
+      createFirework(x, y);
+      
+      playClickSound();
+    }
+    
+    let cursor;
+    let trailElements = [];
+    
+    function createCursorEffect() {
+      cursor = document.getElementById('customCursor');
+      
+      document.addEventListener('mousemove', function(e) {
+        cursor.style.left = `${e.clientX - 10}px`;
+        cursor.style.top = `${e.clientY - 10}px`;
+        
+        createCursorTrail(e.clientX, e.clientY);
+      });
+      
+      const clickableElements = document.querySelectorAll('button, .icon, .bubble, .bubble-second, .progress-dot, .logo-image, .slider-button');
+      
+      clickableElements.forEach(element => {
+        element.addEventListener('mouseenter', () => {
+          cursor.classList.add('active');
+          playHoverSound();
+        });
+        
+        element.addEventListener('mouseleave', () => {
+          cursor.classList.remove('active');
+        });
+      });
+    }
+    
+    function createCursorTrail(x, y) {
+      if (trailElements.length > 10) {
+        const oldTrail = trailElements.shift();
+        if (oldTrail && oldTrail.parentNode) {
+          oldTrail.parentNode.removeChild(oldTrail);
+        }
+      }
+      
+      const trail = document.createElement('div');
+      trail.className = 'cursor-trail';
+      trail.style.left = `${x - 4}px`;
+      trail.style.top = `${y - 4}px`;
+      
+      if (Math.random() > 0.7) {
+        const colors = ['#00ffff', '#ff00ff', '#ffff00', '#00ff00'];
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        trail.style.background = `radial-gradient(circle, ${randomColor}80 0%, transparent 70%)`;
+      }
+      
+      document.body.appendChild(trail);
+      trailElements.push(trail);
+      
+      setTimeout(() => {
+        if (trail.parentNode) {
+          trail.parentNode.removeChild(trail);
+          const index = trailElements.indexOf(trail);
+          if (index > -1) {
+            trailElements.splice(index, 1);
+          }
+        }
+      }, 800);
+    }
+    
+    window.onload = function() {
+      createCursorEffect();
+      createStars();
+      startRandomFireworks();
+      
+      const firstIcon = document.getElementById('icon1');
+      firstIcon.classList.remove('active');
+      setTimeout(() => {
+        firstIcon.classList.add('active');
+        
+        const firstBubble = document.getElementById('bubble1');
+        firstBubble.classList.add('active');
+        
+        const firstBubbleSecond = document.getElementById('bubble-second1');
+        firstBubbleSecond.classList.add('active');
+        
+        playPopSound();
+      }, 100);
+      
+      document.addEventListener('click', createClickEffect);
+      
+      setTimeout(() => {
+        createFirework(30, 30);
+        createFirework(70, 40);
+        createFirework(50, 20);
+        playSparkleSound();
+      }, 500);
+      
+      document.querySelectorAll('.progress-dot').forEach((dot) => {
+        dot.addEventListener('click', function() {
+          const index = parseInt(this.getAttribute('data-index'));
+          showIconByIndex(index);
+          createFirework(20 + (index * 20), 85);
+        });
+      });
+      
+      document.getElementById('prevBtn').addEventListener('mouseenter', () => {
+        playHoverSound();
+      });
+      
+      document.getElementById('nextBtn').addEventListener('mouseenter', () => {
+        playHoverSound();
+      });
+      
+      // 언어 토글 버튼에 호버 효과 추가
+      document.getElementById('languageToggle').addEventListener('mouseenter', () => {
+        playHoverSound();
+      });
+    };
+  </script>
+</body>
+</html>

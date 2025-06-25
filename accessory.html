@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hip-Hop Style Collection</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Bebas+Neue&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #000000;
+            color: #fff;
+            font-family: 'Orbitron', monospace;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        .stars-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: #000000;
+        }
+        
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite;
+        }
+        
+        .star:nth-child(odd) {
+            animation-delay: 1s;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        
+        .neon-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 0, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 255, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 255, 0, 0.1) 0%, transparent 50%);
+            animation: neonPulse 4s ease-in-out infinite alternate;
+            z-index: -1;
+        }
+        
+        .bottom-image {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: auto;
+            max-height: 40vh;
+            z-index: -1;
+            opacity: 0.6;
+            pointer-events: none;
+            object-fit: cover;
+            object-position: bottom center;
+        }
+        
+        @keyframes neonPulse {
+            0% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 60px 0;
+            position: relative;
+        }
+        
+        .main-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(3rem, 8vw, 8rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            background: linear-gradient(45deg, rgba(255, 0, 128, 0.7), rgba(0, 255, 255, 0.7), rgba(255, 255, 0, 0.7), rgba(255, 128, 0, 0.7));
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease-in-out infinite;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+            margin-bottom: 20px;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            color: rgba(0, 255, 255, 0.8);
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+            margin-bottom: 40px;
+        }
+        
+        .section {
+            margin: 80px 0;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.03);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(5px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .section::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            background: linear-gradient(45deg, rgba(255, 0, 128, 0.08), rgba(0, 255, 255, 0.08), rgba(255, 255, 0, 0.08), rgba(255, 128, 0, 0.08));
+            border-radius: 20px;
+            z-index: -1;
+            animation: borderGlow 2s linear infinite;
+        }
+        
+        @keyframes borderGlow {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+        
+        .section-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 3rem;
+            color: #ff0080;
+            text-shadow: 0 0 20px rgba(255, 0, 128, 0.8);
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #ff0080, #00ffff);
+            margin: 15px 0;
+            animation: lineGlow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes lineGlow {
+            0% { box-shadow: 0 0 10px rgba(255, 0, 128, 0.5); }
+            100% { box-shadow: 0 0 25px rgba(0, 255, 255, 0.7); }
+        }
+        
+        .style-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .style-card {
+            background: rgba(255, 255, 255, 0.005);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(2px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .style-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transition: left 0.5s;
+        }
+        
+        .style-card:hover::before {
+            left: 100%;
+        }
+        
+        .style-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(255, 0, 128, 0.1);
+            border-color: rgba(255, 0, 128, 0.3);
+            background: rgba(255, 255, 255, 0.02);
+        }
+        
+        .style-name {
+            font-size: 1.5rem;
+            color: #00ffff;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+        }
+        
+        .style-description {
+            color: #cccccc;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+        
+        .artist-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+        
+        .artist-card {
+            background: rgba(255, 0, 128, 0.02);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(3px);
+            transition: all 0.3s ease;
+        }
+        
+        .artist-card:hover {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 15px 30px rgba(255, 0, 128, 0.15);
+            background: rgba(255, 0, 128, 0.05);
+        }
+        
+        .artist-name {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2rem;
+            color: #ffff00;
+            text-shadow: 0 0 20px rgba(255, 255, 0, 0.7);
+            margin-bottom: 15px;
+        }
+        
+        .artist-style {
+            color: #fff;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .floating-icon {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.1);
+            font-size: 2rem;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .floating-icon:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .floating-icon:nth-child(2) { top: 20%; right: 15%; animation-delay: 1s; }
+        .floating-icon:nth-child(3) { bottom: 30%; left: 20%; animation-delay: 2s; }
+        .floating-icon:nth-child(4) { bottom: 20%; right: 10%; animation-delay: 3s; }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+        }
+        
+        .menu-btn {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid #ff0080;
+            border-radius: 15px;
+            padding: 12px 25px;
+            color: #ff0080;
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-decoration: none;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 
+                0 0 20px rgba(255, 0, 128, 0.3),
+                inset 0 0 20px rgba(255, 0, 128, 0.1);
+            text-shadow: 0 0 15px rgba(255, 0, 128, 0.8);
+            animation: menuGlow 2s ease-in-out infinite alternate;
+        }
+
+        .lang-btn {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid #00ffff;
+            border-radius: 15px;
+            padding: 12px 25px;
+            color: #00ffff;
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-decoration: none;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 
+                0 0 20px rgba(0, 255, 255, 0.3),
+                inset 0 0 20px rgba(0, 255, 255, 0.1);
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+            animation: langGlow 2s ease-in-out infinite alternate;
+        }
+
+        .lang-btn:hover {
+            background: rgba(0, 255, 255, 0.1);
+            border-color: #ffff00;
+            color: #ffff00;
+            text-shadow: 0 0 20px rgba(255, 255, 0, 1);
+            box-shadow: 
+                0 0 30px rgba(255, 255, 0, 0.5),
+                inset 0 0 30px rgba(255, 255, 0, 0.2);
+            transform: scale(1.05) rotate(-2deg);
+        }
+
+        .lang-btn::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00ffff, #ffff00, #ff0080, #ff8000);
+            border-radius: 15px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .lang-btn:hover::before {
+            opacity: 0.3;
+            animation: borderRotate 2s linear infinite;
+        }
+
+        @keyframes langGlow {
+            0% { 
+                box-shadow: 
+                    0 0 20px rgba(0, 255, 255, 0.3),
+                    inset 0 0 20px rgba(0, 255, 255, 0.1);
+            }
+            100% { 
+                box-shadow: 
+                    0 0 35px rgba(0, 255, 255, 0.6),
+                    inset 0 0 25px rgba(0, 255, 255, 0.2);
+            }
+        }
+        
+        .menu-btn:hover {
+            background: rgba(255, 0, 128, 0.1);
+            border-color: #00ffff;
+            color: #00ffff;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 1);
+            box-shadow: 
+                0 0 30px rgba(0, 255, 255, 0.5),
+                inset 0 0 30px rgba(0, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+        
+        .menu-btn::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #ff0080, #00ffff, #ffff00, #ff8000);
+            border-radius: 15px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .menu-btn:hover::before {
+            opacity: 0.3;
+            animation: borderRotate 2s linear infinite;
+        }
+        
+        @keyframes menuGlow {
+            0% { 
+                box-shadow: 
+                    0 0 20px rgba(255, 0, 128, 0.3),
+                    inset 0 0 20px rgba(255, 0, 128, 0.1);
+            }
+            100% { 
+                box-shadow: 
+                    0 0 35px rgba(255, 0, 128, 0.6),
+                    inset 0 0 25px rgba(255, 0, 128, 0.2);
+            }
+        }
+        
+        @keyframes borderRotate {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+        
+        @media (max-width: 768px) {
+            .section {
+                margin: 40px 0;
+                padding: 20px;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .style-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .menu-btn {
+                top: 20px;
+                left: 20px;
+                padding: 10px 20px;
+                font-size: 1.3rem;
+            }
+
+            .lang-btn {
+                top: 20px;
+                right: 20px;
+                padding: 10px 20px;
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars-bg" id="starsContainer"></div>
+    <div class="neon-bg"></div>
+    
+    <!-- Menu Button -->
+    <a href="#" class="menu-btn" onclick="goToMenu()">MENU</a>
+    
+    <!-- Language Button -->
+    <a href="#" class="lang-btn" onclick="switchToKorean()">KOREAN</a>
+    
+    <!-- Bottom Image Area -->
+    <img src="../img/planetfloor.png" alt="Planet Floor" class="bottom-image" id="bottomImage">
+    
+    <div class="floating-elements">
+        <div class="floating-icon">🎤</div>
+        <div class="floating-icon">👑</div>
+        <div class="floating-icon">💎</div>
+        <div class="floating-icon">🔥</div>
+    </div>
+    
+    <div class="container">
+        <header class="header">
+            <h1 class="main-title">Hip-Hop Style Collection</h1>
+            <p class="subtitle">Hair Style & Accessory</p>
+        </header>
+        
+        <section class="section">
+            <h2 class="section-title">🔥 Hair Style Trends</h2>
+            <div class="style-grid">
+                <div class="style-card">
+                    <h3 class="style-name">Braids</h3>
+                    <p class="style-description">
+                        Iconic hairstyle of hip-hop culture. Express your individuality with various styles like cornrows, box braids, and fishtails. 
+                        Long-lasting and excellent for accessory coordination.
+                    </p>
+                </div>
+                
+                <div class="style-card">
+                    <h3 class="style-name">Dreadlocks</h3>
+                    <p class="style-description">
+                        Originating from Jamaican Rastafarian culture and spreading to hip-hop. Creates a natural and rebellious image, 
+                        with various changes possible depending on length and thickness.
+                    </p>
+                </div>
+                
+                <div class="style-card">
+                    <h3 class="style-name">Fade Cut</h3>
+                    <p class="style-description">
+                        Style with gradually shorter sides and back. Divided into high fade, mid fade, and low fade, 
+                        completing a clean yet trendy look.
+                    </p>
+                </div>
+                
+                <div class="style-card">
+                    <h3 class="style-name">Afro</h3>
+                    <p class="style-description">
+                        Classic style with natural curly hair styled with volume. A symbol of traditional Black culture since the 70s, 
+                        still consistently loved in modern times.
+                    </p>
+                </div>
+                
+                <div class="style-card">
+                    <h3 class="style-name">Cornrows</h3>
+                    <p class="style-description">
+                        Braided style tightly woven close to the scalp. Creative expression possible with geometric patterns, 
+                        practical style favored by athletes.
+                    </p>
+                </div>
+                
+                <div class="style-card">
+                    <h3 class="style-name">Twist</h3>
+                    <p class="style-description">
+                        Style created by twisting two strands of hair together. Includes flat twist, two-strand twist, etc., 
+                        creating a natural yet sophisticated feel.
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="section">
+            <h2 class="section-title">💎 Accessory Trends</h2>
+            <div class="style-grid">
+                <div class="style-card">
+                    <h3 class="style-name glow-text">Chains</h3>
+                    <p class="style-description">
+                        Essential item for hip-hop style. Various styling possible depending on thickness, length, and pendant. 
+                        Express luxury with materials like gold, silver, and platinum.
+                    </p>
+                </div>
+                
+                <div class="style-card">
+                    <h3 class="style-name glow-text">Grillz</h3>
+                    <p class="style-description">
+                        Decorative accessories worn on teeth. Made with gold, diamonds, etc., 
+                        iconic item of hip-hop artists symbolizing wealth and success.
+                    </p>
+                </div>
+                
+                <div class="style-card">
+                    <h3 class="style-name glow-text">Bandana</h3>
+                    <p class="style-description">
+                        Multi-purpose accessory worn on head, neck, arms, etc. Individual expression possible with various patterns and colors, 
+                        enhancing the completeness of casual street looks.
+                    </p>
+                </div>
+                
+                <div class="style-card">
+                    <h3 class="style-name glow-text">Caps & Beanies</h3>
+                    <p class="style-description">
+                        Various hats including snapbacks, fitted caps, beanies. Express belonging with brand logos or team marks, 
+                        or create minimal looks with simple designs.
+                    </p>
+                </div>
+                
+                <div class="style-card">
+                    <h3 class="style-name glow-text">Sunglasses</h3>
+                    <p class="style-description">
+                        Key item for creating a cool image. Various styles like oversized, aviator, wayfarer 
+                        emphasize the artist's individuality and charisma.
+                    </p>
+                </div>
+                
+                <div class="style-card">
+                    <h3 class="style-name glow-text">Earrings & Piercings</h3>
+                    <p class="style-description">
+                        Earrings and piercings in various designs like studs, hoops, drops. Express luxury and individuality 
+                        simultaneously with diamonds or unique designs.
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="section">
+            <h2 class="section-title">🎤 Artist Signature Looks</h2>
+            <div class="artist-section">
+                <div class="artist-card">
+                    <h3 class="artist-name">Future</h3>
+                    <p class="artist-style">
+                        • Signature sunglasses<br>
+                        • Monochrome color styling<br>
+                        • Oversized hoodies<br>
+                        • Minimal accessories
+                    </p>
+                </div>
+                
+                <div class="artist-card">
+                    <h3 class="artist-name">A$AP Rocky</h3>
+                    <p class="artist-style">
+                        • Colorful braids<br>
+                        • High fashion mix & match<br>
+                        • Vintage chains<br>
+                        • Experimental styling
+                    </p>
+                </div>
+                
+                <div class="artist-card">
+                    <h3 class="artist-name">Travis Scott</h3>
+                    <p class="artist-style">
+                        • Natural dreadlocks<br>
+                        • Graphic t-shirts<br>
+                        • Chunky sneakers<br>
+                        • Layered chains
+                    </p>
+                </div>
+                
+                <div class="artist-card">
+                    <h3 class="artist-name">Lil Wayne</h3>
+                    <p class="artist-style">
+                        • Diamond grillz<br>
+                        • Long dreadlocks<br>
+                        • Facial tattoos<br>
+                        • Heavy chain layering
+                    </p>
+                </div>
+                
+                <div class="artist-card">
+                    <h3 class="artist-name">Kendrick Lamar</h3>
+                    <p class="artist-style">
+                        • Clean fade cut<br>
+                        • Simple gold chain<br>
+                        • Classic sneakers<br>
+                        • Minimal approach
+                    </p>
+                </div>
+                
+                <div class="artist-card">
+                    <h3 class="artist-name">Migos</h3>
+                    <p class="artist-style">
+                        • Colorful iced chains<br>
+                        • Designer sunglasses<br>
+                        • Pattern mix outfits<br>
+                        • Flash accessories
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <script>
+        // Function to navigate to menu page
+        function goToMenu() {
+            // Enter the URL of the menu page here
+            window.location.href = '../html/menupage.html'; // or the actual path to the menu page
+        }
+
+        // Function to switch to Korean version
+        function switchToKorean() {
+            // You can replace this with the actual Korean version URL
+            // For demo purposes, we'll update the content dynamically
+            updateToKorean();
+        }
+
+        // Function to update content to Korean
+        function updateToKorean() {
+            // Update main title and subtitle
+            document.querySelector('.main-title').textContent = 'Hip-Hop Style Collection';
+            document.querySelector('.subtitle').textContent = 'Hair Style & Accessory';
+            
+            // Update language button
+            const langBtn = document.querySelector('.lang-btn');
+            langBtn.textContent = 'ENGLISH';
+            langBtn.onclick = function() { switchToEnglish(); };
+            
+            // Update section titles
+            document.querySelectorAll('.section-title')[0].innerHTML = '🔥 Hair Style Trends';
+            document.querySelectorAll('.section-title')[1].innerHTML = '💎 Accessory Trends';
+            document.querySelectorAll('.section-title')[2].innerHTML = '🎤 Artist Signature Looks';
+            
+            // Update hair style content
+            const hairStyles = [
+                {
+                    name: '브레이드 (Braids)',
+                    desc: '힙합 문화의 상징적인 헤어스타일. 코넬로우, 박스 브레이드, 피쉬테일 등 다양한 스타일로 개성을 표현. 장시간 유지되며 액세서리와의 조화가 뛰어남.'
+                },
+                {
+                    name: '드레드락 (Dreadlocks)',
+                    desc: '자메이카 라스타파리 문화에서 시작되어 힙합으로 전파된 스타일. 자연스럽고 반항적인 이미지를 연출하며, 길이와 굵기에 따라 다양한 변화 가능.'
+                },
+                {
+                    name: '페이드 커트 (Fade Cut)',
+                    desc: '옆면과 뒷면을 점진적으로 짧게 깎아내리는 스타일. 하이 페이드, 미드 페이드, 로우 페이드로 구분되며, 깔끔하면서도 트렌디한 룩을 완성.'
+                },
+                {
+                    name: '아프로 (Afro)',
+                    desc: '자연스러운 곱슬머리를 볼륨감 있게 연출한 클래식 스타일. 70년대부터 이어진 전통적인 흑인 문화의 상징이며, 현대에도 꾸준히 사랑받는 스타일.'
+                },
+                {
+                    name: '콘로우 (Cornrows)',
+                    desc: '두피에 밀착하여 촘촘하게 땋은 브레이드 스타일. 기하학적 패턴으로 창의적 표현이 가능하며, 스포츠 선수들이 애용하는 실용적인 스타일.'
+                },
+                {
+                    name: '트위스트 (Twist)',
+                    desc: '두 가닥의 머리카락을 꼬아서 만드는 스타일. 플랫 트위스트, 투 스트랜드 트위스트 등이 있으며, 자연스러우면서도 정교한 느낌을 연출.'
+                }
+            ];
+            
+            // Update accessory content
+            const accessories = [
+                {
+                    name: '체인 (Chains)',
+                    desc: '힙합 스타일의 필수 아이템. 굵기와 길이, 펜던트에 따라 다양한 스타일링 가능. 골드, 실버, 플래티넘 등의 소재로 럭셔리함을 표현.'
+                },
+                {
+                    name: '그릴즈 (Grillz)',
+                    desc: '치아에 착용하는 장식용 액세서리. 골드, 다이아몬드 등으로 제작되며, 힙합 아티스트들의 상징적인 아이템으로 부와 성공을 상징.'
+                },
+                {
+                    name: '반다나 (Bandana)',
+                    desc: '머리, 목, 팔 등에 착용하는 다목적 액세서리. 다양한 패턴과 색상으로 개성 표현이 가능하며, 캐주얼한 스트리트 룩의 완성도를 높임.'
+                },
+                {
+                    name: '캡 & 비니 (Caps & Beanies)',
+                    desc: '스냅백, 피티드 캡, 비니 등 다양한 모자류. 브랜드 로고나 팀 마크로 소속감을 표현하거나, 단순한 디자인으로 미니멀한 룩을 연출.'
+                },
+                {
+                    name: '선글라스',
+                    desc: '쿨한 이미지 연출의 핵심 아이템. 오버사이즈, 에비에이터, 웨이페어러 등 다양한 스타일로 아티스트의 개성과 카리스마를 강조.'
+                },
+                {
+                    name: '이어링 & 피어싱',
+                    desc: '스터드, 후프, 드롭 등 다양한 디자인의 귀걸이와 피어싱. 다이아몬드나 독특한 디자인으로 럭셔리함과 개성을 동시에 표현.'
+                }
+            ];
+            
+            // Update artist content
+            const artists = [
+                { name: 'Future', style: '• 시그니처 선글라스<br>• 모노톤 컬러 스타일링<br>• 오버사이즈 후디<br>• 미니멀 액세서리' },
+                { name: 'A$AP Rocky', style: '• 컬러풀한 브레이드<br>• 하이패션 믹스매치<br>• 빈티지 체인<br>• 실험적인 스타일링' },
+                { name: 'Travis Scott', style: '• 자연스러운 드레드락<br>• 그래픽 티셔츠<br>• 청키 스니커즈<br>• 레이어드 체인' },
+                { name: 'Lil Wayne', style: '• 다이아몬드 그릴즈<br>• 롱 드레드락<br>• 페이셜 타투<br>• 헤비 체인 레이어링' },
+                { name: 'Kendrick Lamar', style: '• 클린 페이드 커트<br>• 심플한 골드 체인<br>• 클래식 스니커즈<br>• 미니멀 어프로치' },
+                { name: 'Migos', style: '• 컬러풀 아이스 체인<br>• 디자이너 선글라스<br>• 패턴 믹스 의상<br>• 플래쉬 액세서리' }
+            ];
+            
+            // Update hair style cards
+            const hairStyleCards = document.querySelectorAll('.style-grid')[0].querySelectorAll('.style-card');
+            hairStyles.forEach((style, index) => {
+                if (hairStyleCards[index]) {
+                    hairStyleCards[index].querySelector('.style-name').textContent = style.name;
+                    hairStyleCards[index].querySelector('.style-description').textContent = style.desc;
+                }
+            });
+            
+            // Update accessory cards
+            const accessoryCards = document.querySelectorAll('.style-grid')[1].querySelectorAll('.style-card');
+            accessories.forEach((accessory, index) => {
+                if (accessoryCards[index]) {
+                    accessoryCards[index].querySelector('.style-name').textContent = accessory.name;
+                    accessoryCards[index].querySelector('.style-description').textContent = accessory.desc;
+                }
+            });
+            
+            // Update artist cards
+            const artistCards = document.querySelectorAll('.artist-card');
+            artists.forEach((artist, index) => {
+                if (artistCards[index]) {
+                    artistCards[index].querySelector('.artist-style').innerHTML = artist.style;
+                }
+            });
+        }
+
+        // Function to switch back to English
+        function switchToEnglish() {
+            // Update main title and subtitle
+            document.querySelector('.main-title').textContent = 'Hip-Hop Style Collection';
+            document.querySelector('.subtitle').textContent = 'Hair Style & Accessory';
+            
+            // Update language button
+            const langBtn = document.querySelector('.lang-btn');
+            langBtn.textContent = 'KOREAN';
+            langBtn.onclick = function() { switchToKorean(); };
+            
+            // Update section titles
+            document.querySelectorAll('.section-title')[0].innerHTML = '🔥 Hair Style Trends';
+            document.querySelectorAll('.section-title')[1].innerHTML = '💎 Accessory Trends';
+            document.querySelectorAll('.section-title')[2].innerHTML = '🎤 Artist Signature Looks';
+            
+            // Update hair style content
+            const hairStyles = [
+                {
+                    name: 'Braids',
+                    desc: 'Iconic hairstyle of hip-hop culture. Express your individuality with various styles like cornrows, box braids, and fishtails. Long-lasting and excellent for accessory coordination.'
+                },
+                {
+                    name: 'Dreadlocks',
+                    desc: 'Originating from Jamaican Rastafarian culture and spreading to hip-hop. Creates a natural and rebellious image, with various changes possible depending on length and thickness.'
+                },
+                {
+                    name: 'Fade Cut',
+                    desc: 'Style with gradually shorter sides and back. Divided into high fade, mid fade, and low fade, completing a clean yet trendy look.'
+                },
+                {
+                    name: 'Afro',
+                    desc: 'Classic style with natural curly hair styled with volume. A symbol of traditional Black culture since the 70s, still consistently loved in modern times.'
+                },
+                {
+                    name: 'Cornrows',
+                    desc: 'Braided style tightly woven close to the scalp. Creative expression possible with geometric patterns, practical style favored by athletes.'
+                },
+                {
+                    name: 'Twist',
+                    desc: 'Style created by twisting two strands of hair together. Includes flat twist, two-strand twist, etc., creating a natural yet sophisticated feel.'
+                }
+            ];
+            
+            // Update accessory content
+            const accessories = [
+                {
+                    name: 'Chains',
+                    desc: 'Essential item for hip-hop style. Various styling possible depending on thickness, length, and pendant. Express luxury with materials like gold, silver, and platinum.'
+                },
+                {
+                    name: 'Grillz',
+                    desc: 'Decorative accessories worn on teeth. Made with gold, diamonds, etc., iconic item of hip-hop artists symbolizing wealth and success.'
+                },
+                {
+                    name: 'Bandana',
+                    desc: 'Multi-purpose accessory worn on head, neck, arms, etc. Individual expression possible with various patterns and colors, enhancing the completeness of casual street looks.'
+                },
+                {
+                    name: 'Caps & Beanies',
+                    desc: 'Various hats including snapbacks, fitted caps, beanies. Express belonging with brand logos or team marks, or create minimal looks with simple designs.'
+                },
+                {
+                    name: 'Sunglasses',
+                    desc: 'Key item for creating a cool image. Various styles like oversized, aviator, wayfarer emphasize the artist\'s individuality and charisma.'
+                },
+                {
+                    name: 'Earrings & Piercings',
+                    desc: 'Earrings and piercings in various designs like studs, hoops, drops. Express luxury and individuality simultaneously with diamonds or unique designs.'
+                }
+            ];
+            
+            // Update artist content
+            const artists = [
+                { name: 'Future', style: '• Signature sunglasses<br>• Monochrome color styling<br>• Oversized hoodies<br>• Minimal accessories' },
+                { name: 'A$AP Rocky', style: '• Colorful braids<br>• High fashion mix & match<br>• Vintage chains<br>• Experimental styling' },
+                { name: 'Travis Scott', style: '• Natural dreadlocks<br>• Graphic t-shirts<br>• Chunky sneakers<br>• Layered chains' },
+                { name: 'Lil Wayne', style: '• Diamond grillz<br>• Long dreadlocks<br>• Facial tattoos<br>• Heavy chain layering' },
+                { name: 'Kendrick Lamar', style: '• Clean fade cut<br>• Simple gold chain<br>• Classic sneakers<br>• Minimal approach' },
+                { name: 'Migos', style: '• Colorful iced chains<br>• Designer sunglasses<br>• Pattern mix outfits<br>• Flash accessories' }
+            ];
+            
+            // Update hair style cards
+            const hairStyleCards = document.querySelectorAll('.style-grid')[0].querySelectorAll('.style-card');
+            hairStyles.forEach((style, index) => {
+                if (hairStyleCards[index]) {
+                    hairStyleCards[index].querySelector('.style-name').textContent = style.name;
+                    hairStyleCards[index].querySelector('.style-description').textContent = style.desc;
+                }
+            });
+            
+            // Update accessory cards
+            const accessoryCards = document.querySelectorAll('.style-grid')[1].querySelectorAll('.style-card');
+            accessories.forEach((accessory, index) => {
+                if (accessoryCards[index]) {
+                    accessoryCards[index].querySelector('.style-name').textContent = accessory.name;
+                    accessoryCards[index].querySelector('.style-description').textContent = accessory.desc;
+                }
+            });
+            
+            // Update artist cards
+            const artistCards = document.querySelectorAll('.artist-card');
+            artists.forEach((artist, index) => {
+                if (artistCards[index]) {
+                    artistCards[index].querySelector('.artist-style').innerHTML = artist.style;
+                }
+            });
+        }
+        
+        // Create stars
+        function createStars() {
+            const starsContainer = document.getElementById('starsContainer');
+            const starCount = 200;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDuration = (Math.random() * 3 + 1) + 's';
+                star.style.animationDelay = Math.random() * 2 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // Create stars when page loads
+        createStars();
+        
+        // Bottom image setting (can be dynamically changed with JavaScript if needed)
+        // document.getElementById('bottomImage').src = 'Enter image URL here';
+        
+        // Scroll animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Apply animation to all sections
+        document.querySelectorAll('.section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(50px)';
+            section.style.transition = 'all 0.8s ease';
+            observer.observe(section);
+        });
+        
+        // Enhanced card hover effects
+        document.querySelectorAll('.style-card, .artist-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.filter = 'brightness(1.1)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.filter = 'brightness(1)';
+            });
+        });
+        
+        // Dynamic background effect (slightly reduced)
+        let mouseX = 0, mouseY = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX / window.innerWidth;
+            mouseY = e.clientY / window.innerHeight;
+            
+            const neonBg = document.querySelector('.neon-bg');
+            neonBg.style.background = `
+                radial-gradient(circle at ${mouseX * 100}% ${mouseY * 100}%, rgba(255, 0, 255, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at ${(1-mouseX) * 100}% ${(1-mouseY) * 100}%, rgba(0, 255, 255, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 255, 0, 0.1) 0%, transparent 50%)
+            `;
+        });
+    </script>
+</body>
+</html>

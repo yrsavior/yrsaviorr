@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Let's Style The Hell Outta It - Bold</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes bounce {
+            0%, 20%, 53%, 80%, 100% { transform: translate3d(0,0,0); }
+            40%, 43% { transform: translate3d(0,-30px,0); }
+            70% { transform: translate3d(0,-15px,0); }
+            90% { transform: translate3d(0,-4px,0); }
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .animate-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        .animate-spin { animation: spin 1s linear infinite; }
+        .animate-bounce { animation: bounce 1s infinite; }
+        .animate-twinkle { animation: twinkle 2s ease-in-out infinite; }
+        .animate-float { animation: float 3s ease-in-out infinite; }
+        
+        /* 텍스트 선명도 향상 */
+        * {
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: #000;
+            position: relative;
+            cursor: none;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            text-shadow: 
+                0 0 10px rgba(255, 255, 255, 0.3),
+                0 2px 4px rgba(0, 0, 0, 0.8),
+                0 0 20px rgba(255, 255, 255, 0.1);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        
+        p, div, span {
+            text-shadow: 
+                0 1px 3px rgba(0, 0, 0, 0.8),
+                0 0 8px rgba(255, 255, 255, 0.1);
+        }
+
+        .text-white {
+            color: rgba(255, 255, 255, 0.98) !important;
+        }
+
+        .text-gray-300 {
+            color: rgba(209, 213, 219, 0.95) !important;
+            text-shadow: 
+                0 1px 2px rgba(0, 0, 0, 0.7),
+                0 0 6px rgba(255, 255, 255, 0.15);
+        }
+
+        .text-gray-400 {
+            color: rgba(156, 163, 175, 0.95) !important;
+            text-shadow: 
+                0 1px 2px rgba(0, 0, 0, 0.6),
+                0 0 4px rgba(255, 255, 255, 0.1);
+        }
+
+        .text-cyan-400, .text-yellow-400, .text-pink-400 {
+            text-shadow: 
+                0 0 15px currentColor,
+                0 2px 4px rgba(0, 0, 0, 0.8),
+                0 0 25px rgba(255, 255, 255, 0.2);
+            font-weight: 600;
+        }
+        
+        /* 별 배경 */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+        
+        .star:nth-child(2n) { animation-delay: 1s; }
+        .star:nth-child(3n) { animation-delay: 2s; }
+        .star:nth-child(4n) { animation-delay: 0.5s; }
+        .star:nth-child(5n) { animation-delay: 1.5s; }
+        .star:nth-child(6n) { animation-delay: 2.5s; }
+        
+        /* 바닥 이미지 영역 */
+        .floor-image {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 500px;
+            background-size: cover;
+            background-position: center bottom;
+            background-repeat: no-repeat;
+            z-index: 2;
+            pointer-events: none;
+            opacity: 0.9;
+            mask: radial-gradient(ellipse 200% 150% at 50% 100%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 30%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0) 100%);
+            -webkit-mask: radial-gradient(ellipse 200% 150% at 50% 100%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 30%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0) 100%);
+        }
+        
+        /* 네온 마우스 커서 */
+        .cursor-glow {
+            position: fixed;
+            width: 24px;
+            height: 24px;
+            border: 3px solid #00ffff;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            box-shadow: 
+                0 0 20px #00ffff,
+                0 0 40px #00ffff,
+                0 0 60px #00ffff,
+                inset 0 0 15px rgba(0, 255, 255, 0.3);
+            animation: cursor-rainbow 2s ease-in-out infinite;
+            transform: translate(-50%, -50%);
+            backdrop-filter: blur(2px);
+            transition: all 0.1s ease;
+        }
+
+        .cursor-glow::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 6px;
+            height: 6px;
+            background: #ff00ff;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 15px #ff00ff;
+            animation: center-pulse 1.5s ease-in-out infinite;
+        }
+
+        .cursor-glow::after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border: 1px solid rgba(255, 0, 255, 0.3);
+            border-radius: 50%;
+            animation: outer-ring 3s linear infinite;
+        }
+        
+        @keyframes cursor-rainbow {
+            0% { 
+                border-color: #00ffff;
+                box-shadow: 
+                    0 0 20px #00ffff,
+                    0 0 40px #00ffff,
+                    0 0 60px #00ffff,
+                    inset 0 0 15px rgba(0, 255, 255, 0.3);
+            }
+            25% { 
+                border-color: #ff00ff;
+                box-shadow: 
+                    0 0 25px #ff00ff,
+                    0 0 50px #ff00ff,
+                    0 0 75px #ff00ff,
+                    inset 0 0 20px rgba(255, 0, 255, 0.3);
+            }
+            50% { 
+                border-color: #ffff00;
+                box-shadow: 
+                    0 0 30px #ffff00,
+                    0 0 60px #ffff00,
+                    0 0 90px #ffff00,
+                    inset 0 0 25px rgba(255, 255, 0, 0.3);
+            }
+            75% { 
+                border-color: #00ff00;
+                box-shadow: 
+                    0 0 25px #00ff00,
+                    0 0 50px #00ff00,
+                    0 0 75px #00ff00,
+                    inset 0 0 20px rgba(0, 255, 0, 0.3);
+            }
+            100% { 
+                border-color: #00ffff;
+                box-shadow: 
+                    0 0 20px #00ffff,
+                    0 0 40px #00ffff,
+                    0 0 60px #00ffff,
+                    inset 0 0 15px rgba(0, 255, 255, 0.3);
+            }
+        }
+
+        @keyframes center-pulse {
+            0%, 100% { 
+                transform: translate(-50%, -50%) scale(1);
+                background: #ff00ff;
+            }
+            50% { 
+                transform: translate(-50%, -50%) scale(1.5);
+                background: #00ffff;
+            }
+        }
+
+        @keyframes outer-ring {
+            0% { 
+                transform: rotate(0deg) scale(1);
+                border-color: rgba(255, 0, 255, 0.3);
+            }
+            50% { 
+                transform: rotate(180deg) scale(1.2);
+                border-color: rgba(0, 255, 255, 0.5);
+            }
+            100% { 
+                transform: rotate(360deg) scale(1);
+                border-color: rgba(255, 0, 255, 0.3);
+            }
+        }
+
+        .cursor-glow.hover {
+            width: 40px;
+            height: 40px;
+            border-width: 4px;
+            animation: cursor-hover-rainbow 1s ease-in-out infinite;
+        }
+
+        @keyframes cursor-hover-rainbow {
+            0%, 100% { 
+                border-color: #ff0080;
+                box-shadow: 
+                    0 0 30px #ff0080,
+                    0 0 60px #ff0080,
+                    0 0 90px #ff0080,
+                    inset 0 0 25px rgba(255, 0, 128, 0.4);
+                transform: translate(-50%, -50%) scale(1);
+            }
+            50% { 
+                border-color: #80ff00;
+                box-shadow: 
+                    0 0 40px #80ff00,
+                    0 0 80px #80ff00,
+                    0 0 120px #80ff00,
+                    inset 0 0 35px rgba(128, 255, 0, 0.4);
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+        }
+        
+        /* 메뉴 버튼 네온 효과 */
+        .menu-btn {
+            text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5), inset 0 0 15px rgba(0, 255, 255, 0.1);
+        }
+        
+        .menu-btn:hover {
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.8), inset 0 0 25px rgba(0, 255, 255, 0.2);
+        }
+
+        /* 언어 버튼 스타일 */
+        .lang-btn {
+            text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.5), inset 0 0 15px rgba(255, 0, 255, 0.1);
+            background: transparent;
+            border: 2px solid #ff00ff;
+            color: #ff00ff;
+        }
+        
+        .lang-btn:hover {
+            box-shadow: 0 0 25px rgba(255, 0, 255, 0.8), inset 0 0 25px rgba(255, 0, 255, 0.2);
+            background: rgba(255, 0, 255, 0.1);
+            border-color: #ffff00;
+            color: #ffff00;
+            text-shadow: 0 0 20px #ffff00, 0 0 30px #ffff00, 0 0 40px #ffff00;
+        }
+
+        /* CLEAR 버튼 스타일 */
+        .clear-btn {
+            text-shadow: 0 0 10px #ff4500, 0 0 20px #ff4500, 0 0 30px #ff4500;
+            box-shadow: 0 0 15px rgba(255, 69, 0, 0.5), inset 0 0 15px rgba(255, 69, 0, 0.1);
+            background: transparent;
+            border: 2px solid #ff4500;
+            color: #ff4500;
+        }
+        
+        .clear-btn:hover {
+            box-shadow: 0 0 25px rgba(255, 69, 0, 0.8), inset 0 0 25px rgba(255, 69, 0, 0.2);
+            background: rgba(255, 69, 0, 0.1);
+            border-color: #ff6347;
+            color: #ff6347;
+            text-shadow: 0 0 20px #ff6347, 0 0 30px #ff6347, 0 0 40px #ff6347;
+        }
+        
+        button, .cursor-pointer {
+            cursor: none;
+        }
+        
+        /* 추천 모달 두 번만 튀는 애니메이션 */
+        .recommendation-bounce {
+            animation: double-bounce 0.8s ease-in-out;
+        }
+        
+        @keyframes double-bounce {
+            0%, 100% { transform: scale(1); }
+            20% { transform: scale(1.1); }
+            40% { transform: scale(1); }
+            60% { transform: scale(1.1); }
+            80% { transform: scale(1); }
+        }
+        
+        /* 이름 입력 모달 두 번만 튀는 애니메이션 */
+        .name-input-bounce {
+            animation: name-double-bounce 0.8s ease-in-out;
+        }
+        
+        @keyframes name-double-bounce {
+            0%, 100% { transform: scale(1); }
+            20% { transform: scale(1.08); }
+            40% { transform: scale(1); }
+            60% { transform: scale(1.08); }
+            80% { transform: scale(1); }
+        }
+
+        /* 모바일에서 커서 숨기기 */
+        @media (max-width: 768px) {
+            .cursor-glow {
+                display: none;
+            }
+            
+            body, button, .cursor-pointer {
+                cursor: auto !important;
+            }
+        }
+
+        /* 빈 상태 스타일 */
+        .empty-display {
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 3rem;
+        }
+
+        @keyframes neon-flicker {
+            0% {
+                text-shadow: 
+                    0 0 10px #00FFFF,
+                    0 0 20px #FF00FF,
+                    0 0 30px #FFFF00,
+                    0 0 40px #FF0080,
+                    0 2px 4px #000000;
+            }
+            50% {
+                text-shadow: 
+                    0 0 15px #00FFFF,
+                    0 0 30px #FF00FF,
+                    0 0 45px #FFFF00,
+                    0 0 60px #FF0080,
+                    0 2px 4px #000000;
+            }
+            100% {
+                text-shadow: 
+                    0 0 20px #00FFFF,
+                    0 0 40px #FF00FF,
+                    0 0 60px #FFFF00,
+                    0 0 80px #FF0080,
+                    0 2px 4px #000000;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen text-white relative" style="background: #000;">
+    <!-- 별 배경 -->
+    <div class="stars" id="stars"></div>
+    
+    <!-- 바닥 이미지 -->
+    <div class="floor-image" style="background-image: url('../img/earthfloor.png');"></div>
+
+    <!-- 마우스 커서 네온 효과 -->
+    <div class="cursor-glow" id="cursor-glow"></div>
+
+    <!-- 메뉴 버튼 -->
+    <div class="fixed top-6 left-6 z-50">
+        <button onclick="goToMenu()" class="menu-btn group relative px-6 py-3 bg-transparent border-2 border-cyan-400 rounded-xl font-bold text-lg text-cyan-400 hover:text-black transition-all duration-300 overflow-hidden">
+            <span class="relative z-10">MENU</span>
+            <div class="absolute inset-0 bg-cyan-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+            <div class="absolute inset-0 animate-pulse bg-cyan-400/20 rounded-xl"></div>
+        </button>
+    </div>
+
+    <!-- 언어 전환 버튼 -->
+    <div class="fixed top-6 right-6 z-50">
+        <button onclick="switchLanguage()" id="lang-btn" class="lang-btn group relative px-6 py-3 rounded-xl font-bold text-lg transition-all duration-300 overflow-hidden">
+            <span class="relative z-10" id="lang-text">한국어</span>
+            <div class="absolute inset-0 animate-pulse bg-pink-500/20 rounded-xl"></div>
+        </button>
+    </div>
+
+    <!-- 메인 컨텐츠 -->
+    <div class="relative z-10 container mx-auto px-4 py-8 min-h-screen">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-6xl font-black mb-4 relative">
+                <span class="relative z-10 text-white font-black" style="
+                    color: #FFFFFF;
+                    text-shadow: 
+                        0 0 10px #00FFFF,
+                        0 0 20px #FF00FF,
+                        0 0 30px #FFFF00,
+                        0 0 40px #FF0080,
+                        0 2px 4px #000000;
+                    animation: neon-flicker 2s ease-in-out infinite alternate;
+                ">SWAG STYLER</span>
+            </h1>
+            <p class="text-xl text-gray-300 font-semibold" id="subtitle">Create Your Hip-Hop Vibe & Get AI Rapper Recommendations! 🎤</p>
+        </div>
+
+        <!-- Style Selection -->
+        <div class="mb-12">
+            <h2 class="text-3xl font-bold text-center mb-8 text-yellow-400" id="choose-vibe">🎯 Choose Your Vibe</h2>
+            <div class="flex justify-center gap-6 mb-8">
+                <button onclick="selectStyle('street')" id="street-btn" class="style-btn px-8 py-4 rounded-2xl font-bold text-xl transform transition-all duration-300 hover:scale-110 bg-gray-800 hover:bg-gray-700">
+                    <span id="street-text">🔥 Street</span>
+                </button>
+                <button onclick="selectStyle('luxury')" id="luxury-btn" class="style-btn px-8 py-4 rounded-2xl font-bold text-xl transform transition-all duration-300 hover:scale-110 bg-gray-800 hover:bg-gray-700">
+                    <span id="luxury-text">💎 Luxury</span>
+                </button>
+                <button onclick="selectStyle('vintage')" id="vintage-btn" class="style-btn px-8 py-4 rounded-2xl font-bold text-xl transform transition-all duration-300 hover:scale-110 bg-gray-800 hover:bg-gray-700">
+                    <span id="vintage-text">✨ Vintage</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-12">
+            <!-- Character Display -->
+            <div class="flex flex-col items-center">
+                <div class="flex items-center gap-4 mb-6">
+                    <h3 class="text-2xl font-bold text-cyan-400" id="your-avatar">👤 Your Avatar</h3>
+                    <button onclick="clearSelection()" class="clear-btn px-4 py-2 rounded-xl font-bold text-sm transition-all duration-300 hover:scale-105">
+                        <span id="clear-text">CLEAR</span>
+                    </button>
+                </div>
+                <div class="relative">
+                    <div onclick="showNameInput()" class="w-[28rem] h-[45rem] bg-gradient-to-b from-gray-800 to-gray-900 rounded-3xl shadow-2xl border-4 border-yellow-400 overflow-hidden cursor-pointer hover:scale-105 transition-all duration-300 relative">
+                        <div class="absolute inset-0 bg-gradient-to-br from-transparent to-black/30"></div>
+                        
+                        <!-- 상의 이미지 표시 영역 -->
+                        <div class="absolute top-8 left-1/2 transform -translate-x-1/2 w-64 h-48 flex items-center justify-center">
+                            <img id="top-image" src="" alt="" class="w-48 h-48 object-contain rounded-xl hidden transition-all duration-300 hover:scale-105" />
+                            <div id="top-emoji" class="empty-display">?</div>
+                        </div>
+                        
+                        <!-- 하의 이미지 표시 영역 -->
+                        <div class="absolute top-48 left-1/2 transform -translate-x-1/2 w-64 h-56 flex items-center justify-center">
+                            <img id="bottom-image" src="" alt="" class="w-56 h-56 object-contain rounded-xl hidden transition-all duration-300 hover:scale-105" />
+                            <div id="bottom-emoji" class="empty-display">?</div>
+                        </div>
+                        
+                        <!-- 신발 이미지 표시 영역 -->
+                        <div class="absolute bottom-32 left-1/2 transform -translate-x-1/2 w-64 h-32 flex items-center justify-center">
+                            <img id="shoes-image" src="" alt="" class="w-32 h-32 object-contain rounded-xl hidden transition-all duration-300 hover:scale-105" />
+                            <div id="shoes-emoji" class="empty-display text-8xl">?</div>
+                        </div>
+                        
+                        <!-- 액세서리 이미지 표시 영역 -->
+                        <div class="absolute bottom-14 left-1/2 transform -translate-x-1/2 w-64 h-20 flex items-center justify-center">
+                            <img id="accessory-image" src="" alt="" class="w-24 h-24 object-contain rounded-xl hidden transition-all duration-300 hover:scale-105" />
+                            <div id="accessory-emoji" class="empty-display text-6xl">?</div>
+                        </div>
+                        
+                        <!-- 클릭 힌트 -->
+                        <div class="absolute bottom-1 left-0 right-0 text-center text-xs text-gray-400" id="click-hint">
+                            Click to add your name! ✨
+                        </div>
+                    </div>
+                    <div class="absolute -inset-4 bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 rounded-3xl opacity-30 animate-pulse -z-10"></div>
+                </div>
+                
+                <!-- 사용자 이름 표시 -->
+                <div id="user-name-display" class="mt-4 text-xl font-bold text-yellow-400 hidden">
+                    🌟 <span id="user-name-text"></span> 🌟
+                </div>
+                
+                <button onclick="showRecommendation()" class="mt-8 px-8 py-4 bg-gradient-to-r from-green-500 to-blue-600 rounded-2xl font-bold text-xl transform transition-all duration-300 hover:scale-110 shadow-2xl shadow-green-500/50" id="complete-style">
+                    🎉 Complete Your Style!
+                </button>
+            </div>
+
+            <!-- Item Selection -->
+            <div class="space-y-8">
+                <!-- 상의 -->
+                <div class="bg-gray-800/50 rounded-2xl p-6 backdrop-blur-sm border border-gray-700">
+                    <h4 class="text-xl font-bold mb-4 text-yellow-400" id="tops-title">👕 Tops</h4>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="selectItem('top', 'oversized-tee', '👕')" class="item-btn p-4 rounded-xl font-semibold text-center transition-all duration-300 transform hover:scale-105 bg-gray-700 hover:bg-gray-600" data-category="top" data-item="oversized-tee">
+                            <div class="text-2xl mb-2">👕</div>
+                            <div class="text-sm" id="oversized-tee">Oversized Tee</div>
+                        </button>
+                        <button onclick="selectItem('top', 'hoodie', '🧥')" class="item-btn p-4 rounded-xl font-semibold text-center transition-all duration-300 transform hover:scale-105 bg-gray-700 hover:bg-gray-600" data-category="top" data-item="hoodie">
+                            <div class="text-2xl mb-2">🧥</div>
+                            <div class="text-sm" id="hoodie">Hoodie</div>
+                        </button>
+                        <button onclick="selectItem('top', 'varsity-jacket', '🧥')" class="item-btn p-4 rounded-xl font-semibold text-center transition-all duration-300 transform hover:scale-105 bg-gray-700 hover:bg-gray-600" data-category="top" data-item="varsity-jacket">
+                            <div class="text-2xl mb-2">🧥</div>
+                            <div class="text-sm" id="varsity-jacket">Varsity Jacket</div>
+                        </button>
+                        <button onclick="selectItem('top', 'tank-top', '👕')" class="item-btn p-4 rounded-xl font-semibold text-center transition-all duration-300 transform hover:scale-105 bg-gray-700 hover:bg-gray-600" data-category="top" data-item="tank-top">
+                            <div class="text-2xl mb-2">👕</div>
+                            <div class="text-sm" id="tank-top">Tank Top</div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 하의 -->
+                <div class="bg-gray-800/50 rounded-2xl p-6 backdrop-blur-sm border border-gray-700">
+                    <h4 class="text-xl font-bold mb-4 text-yellow-400" id="bottoms-title">👖 Bottoms</h4>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="selectItem('bottom', 'cargo-pants', '👖')" class="item-btn p-4 rounded-xl font-semibold text-center transition-all duration-300 transform hover:scale-105 bg-gray-700 hover:bg-gray-600" data-category="bottom" data-item="cargo-pants">
+                            <div class="text-2xl mb-2">👖</div>
+                            <div class="text-sm" id="cargo-pants">Cargo Pants</div>
+                        </button>
+                        <button onclick="selectItem('bottom', 'ripped-jeans', '👖')" class="item-btn p-4 rounded-xl font-semibold text-center transition-all duration-300 transform hover:scale-105 bg-gray-700 hover:bg-gray-600" data-category="bottom" data-item="ripped-jeans">
+                            <div class="text-2xl mb-2">👖</div>
+                            <div class="text-sm" id="ripped-jeans">Ripped Jeans</div>
+                        </button>
+                        <button onclick="selectItem('bottom', 'joggers', '👖')" class="item-btn p-4 rounded-xl font-semibold text-center transition-all duration-300 transform hover:scale-105 bg-gray-700 hover:bg-gray-600" data-category="bottom" data-item="joggers">
+                            <div class="text-2xl mb-2">👖</div>
+                            <div class="text-sm" id="joggers">Joggers</div>
+                        </button>
+                        <button onclick="selectItem('bottom', 'shorts', '🩳')" class="item-btn p-4 rounded-xl font-semibold text-center transition-all duration-300 transform hover:scale-105 bg-gray-700 hover:bg-gray-600" data-category="bottom" data-item="shorts">
+                            <div class="text-2xl mb-2">🩳</div>
+                            <div class="text-sm" id="shorts">Shorts</div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 신발 -->
+                <div class="bg-gray-800/50 rounded-2xl p-6 backdrop-blur-sm border border-gray-700">
+                    <h4 class="text-xl font-bold mb-4 text-yellow-400" id="kicks-title">👟 Kicks</h4>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="selectItem('shoes', 'air-force', '👟')" class="item-btn p-4 rounded-xl font-semibold text-center transition-all duration-300 transform hover:scale-105 bg-gray-700 hover:bg-gray-600" data-category="shoes" data-item="air-force">
+                            <div class="text-2xl mb-2">👟</div>
+                            <div class="text-sm" id="air-force">Air Force</div>
+                        </button>
+                        <button onclick="selectItem('shoes', 'jordans', '👟')" class="item-btn p-4 rounded-xl font-semibold text-center transition-all duration-300 transform hover:scale-105 bg-gray-700 hover:bg-gray-600" data-category="shoes" data-item="jordans">
+                            <div class="text-2xl mb-2">👟</div>
+                            <div class="text-sm" id="jordans">Jordans</div>
+                        </button>
+                        <button onclick="selectItem('shoes', 'timberlands', '🥾')" class="item-btn p-4 rounded-xl font-semibold text-center transition-all duration-300 transform hover:scale-105 bg-gray-700 hover:bg-gray-600" data-category="shoes" data-item="timberlands">
+                            <div class="text-2xl mb-2">🥾</div>
+                            <div class="text-sm" id="timberlands">Timberlands</div>
+                        </button>
+                        <button onclick="selectItem('shoes', 'converse', '👟')" class="item-btn p-4 rounded-xl font-semibold text-center transition-all duration-300 transform hover:scale-105 bg-gray-700 hover:bg-gray-600" data-category="shoes" data-item="converse">
+                            <div class="text-2xl mb-2">👟</div>
+                            <div class="text-sm" id="converse">Converse</div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 액세서리 -->
+                <div class="bg-gray-800/50 rounded-2xl p-6 backdrop-blur-sm border border-gray-700">
+                    <h4 class="text-xl font-bold mb-4 text-yellow-400" id="accessories-title">✨ Accessories</h4>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="selectItem('accessory', 'chain', '📿')" class="item-btn p-4 rounded-xl font-semibold text-center transition-all duration-300 transform hover:scale-105 bg-gray-700 hover:bg-gray-600" data-category="accessory" data-item="chain">
+                            <div class="text-2xl mb-2">📿</div>
+                            <div class="text-sm" id="chain">Chain</div>
+                        </button>
+                        <button onclick="selectItem('accessory', 'cap', '🧢')" class="item-btn p-4 rounded-xl font-semibold text-center transition-all duration-300 transform hover:scale-105 bg-gray-700 hover:bg-gray-600" data-category="accessory" data-item="cap">
+                            <div class="text-2xl mb-2">🧢</div>
+                            <div class="text-sm" id="cap">Cap</div>
+                        </button>
+                        <button onclick="selectItem('accessory', 'sunglasses', '🕶️')" class="item-btn p-4 rounded-xl font-semibold text-center transition-all duration-300 transform hover:scale-105 bg-gray-700 hover:bg-gray-600" data-category="accessory" data-item="sunglasses">
+                            <div class="text-2xl mb-2">🕶️</div>
+                            <div class="text-sm" id="sunglasses">Sunglasses</div>
+                        </button>
+                        <button onclick="selectItem('accessory', 'watch', '⌚')" class="item-btn p-4 rounded-xl font-semibold text-center transition-all duration-300 transform hover:scale-105 bg-gray-700 hover:bg-gray-600" data-category="accessory" data-item="watch">
+                            <div class="text-2xl mb-2">⌚</div>
+                            <div class="text-sm" id="watch">Watch</div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Current Style Info -->
+        <div class="mt-12 text-center">
+            <div class="bg-gray-800/50 rounded-2xl p-6 backdrop-blur-sm border border-gray-700 max-w-2xl mx-auto">
+                <h3 class="text-2xl font-bold mb-4 text-pink-400" id="current-fit">🔥 Your Current Fit</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center" id="current-style">
+                    <div>
+                        <div class="text-2xl mb-2 empty-display" id="current-top">?</div>
+                        <div class="text-sm font-semibold" id="current-top-name">Not Selected</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl mb-2 empty-display" id="current-bottom">?</div>
+                        <div class="text-sm font-semibold" id="current-bottom-name">Not Selected</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl mb-2 empty-display" id="current-shoes">?</div>
+                        <div class="text-sm font-semibold" id="current-shoes-name">Not Selected</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl mb-2 empty-display" id="current-accessory">?</div>
+                        <div class="text-sm font-semibold" id="current-accessory-name">Not Selected</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Name Input Modal -->
+    <div id="name-input-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center z-50 backdrop-blur-sm hidden">
+        <div class="bg-gradient-to-br from-blue-900 to-purple-900 p-8 rounded-3xl border-4 border-cyan-400 max-w-md mx-4 name-input-bounce">
+            <h3 class="text-2xl font-bold text-center mb-4 text-cyan-400" id="modal-name-title">✨ What's Your Name?</h3>
+            <div class="text-center">
+                <p class="text-lg mb-6 text-gray-300" id="modal-name-desc">Give your avatar a name to make it yours! 🎭</p>
+                <input type="text" id="name-input" placeholder="Enter your name..." class="w-full px-4 py-3 rounded-xl bg-gray-800 text-white border-2 border-gray-600 focus:border-cyan-400 focus:outline-none text-center text-lg font-semibold mb-6">
+                <div class="flex gap-3">
+                    <button onclick="saveName()" class="flex-1 px-6 py-3 bg-gradient-to-r from-green-500 to-blue-600 rounded-xl font-bold text-lg transform transition-all duration-300 hover:scale-105" id="save-btn">
+                        🎉 Save
+                    </button>
+                    <button onclick="closeNameInput()" class="flex-1 px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-xl font-bold text-lg transform transition-all duration-300 hover:scale-105" id="cancel-btn">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Recommendation Modal -->
+    <div id="recommendation-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center z-50 backdrop-blur-sm hidden">
+        <div class="bg-gradient-to-br from-purple-900 to-pink-900 p-8 rounded-3xl border-4 border-yellow-400 max-w-md mx-4 recommendation-bounce">
+            <h3 class="text-2xl font-bold text-center mb-4 text-yellow-400" id="modal-rapper-title">🎤 AI Rapper Style Match!</h3>
+            <div class="text-center">
+                <p class="text-lg mb-4" id="modal-style-match">Your <span id="style-name">Street</span> style matches these rappers:</p>
+                <div class="space-y-2" id="rapper-list">
+                    <!-- 래퍼 목록이 동적으로 생성됩니다 -->
+                </div>
+                <div class="mt-6 text-sm text-gray-300" id="modal-click-hint">
+                    Click on any rapper to see their profile!
+                </div>
+                <button onclick="closeRecommendationModal()" class="mt-4 px-6 py-2 bg-gray-700 hover:bg-gray-600 rounded-xl font-bold text-sm" id="modal-close">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rapper Profile Section (하단 배치) -->
+    <div id="rapper-profile-section" class="mt-20 hidden">
+        <div class="bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 rounded-3xl border-4 border-cyan-400 overflow-hidden shadow-2xl">
+            <!-- Resume Header Section -->
+            <div class="relative bg-gradient-to-r from-gray-800 via-purple-800 to-gray-800 p-8">
+                <div class="absolute top-4 right-4">
+                    <button onclick="closeRapperProfile()" class="w-10 h-10 bg-red-500 hover:bg-red-600 rounded-full flex items-center justify-center font-bold text-white transition-all duration-300 hover:scale-110">
+                        ✕
+                    </button>
+                </div>
+                
+                <div class="flex items-start gap-8">
+                    <!-- Profile Image Area -->
+                    <div class="flex-shrink-0">
+                        <div class="w-32 h-32 bg-gradient-to-br from-cyan-400 to-purple-500 rounded-2xl flex items-center justify-center border-4 border-white/20 shadow-xl">
+                            <div class="text-6xl" id="rapper-avatar">🎤</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Personal Info -->
+                    <div class="flex-grow">
+                        <h2 class="text-4xl font-black text-white mb-2" id="rapper-name">Artist Name</h2>
+                        <p class="text-xl text-cyan-300 font-semibold mb-4" id="rapper-title">Hip-Hop Legend</p>
+                        
+                        <!-- Contact Info Style -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                            <div class="bg-blue-800/30 px-4 py-2 rounded-lg border border-blue-400/30">
+                                <div class="text-blue-300 text-xs font-semibold" id="debut-year-label">DEBUT YEAR</div>
+                                <div class="text-white font-bold text-lg" id="rapper-debut">2010</div>
+                            </div>
+                            <div class="bg-green-800/30 px-4 py-2 rounded-lg border border-green-400/30">
+                                <div class="text-green-300 text-xs font-semibold" id="albums-label">ALBUMS</div>
+                                <div class="text-white font-bold text-lg" id="rapper-albums">8</div>
+                            </div>
+                            <div class="bg-pink-800/30 px-4 py-2 rounded-lg border border-pink-400/30">
+                                <div class="text-pink-300 text-xs font-semibold" id="awards-label">AWARDS</div>
+                                <div class="text-white font-bold text-lg" id="rapper-awards">12</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resume Content Section -->
+            <div class="p-8 space-y-6">
+                <!-- Professional Summary -->
+                <div class="border-l-4 border-yellow-400 pl-6">
+                    <h3 class="text-xl font-bold text-yellow-400 mb-3 flex items-center">
+                        <span class="mr-3">📋</span> <span id="prof-summary">PROFESSIONAL SUMMARY</span>
+                    </h3>
+                    <p class="leading-relaxed font-semibold text-lg" id="rapper-bio" style="
+                        color: #FFFFFF;
+                        text-shadow: 
+                            0 0 3px rgba(255, 255, 255, 0.4),
+                            0 2px 4px rgba(0, 0, 0, 0.9);
+                        filter: contrast(1.1) brightness(1.05);
+                    ">
+                        Artist biography will be displayed here...
+                    </p>
+                </div>
+
+                <!-- Skills & Expertise -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="border-l-4 border-cyan-400 pl-6">
+                        <h3 class="text-lg font-bold text-cyan-400 mb-3 flex items-center">
+                            <span class="mr-3">🎯</span> <span id="core-skills">CORE SKILLS</span>
+                        </h3>
+                        <div class="space-y-2" id="rapper-style">
+                            <!-- 스타일 태그들이 동적으로 생성됩니다 -->
+                        </div>
+                    </div>
+                    <div class="border-l-4 border-pink-400 pl-6">
+                        <h3 class="text-lg font-bold text-pink-400 mb-3 flex items-center">
+                            <span class="mr-3">🏆</span> <span id="notable-works">NOTABLE WORKS</span>
+                        </h3>
+                        <div class="space-y-2" id="rapper-tracks">
+                            <!-- 유명한 트랙들이 동적으로 생성됩니다 -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fashion & Brand Experience -->
+                <div class="border-l-4 border-purple-400 pl-6">
+                    <h3 class="text-lg font-bold text-purple-300 mb-3 flex items-center">
+                        <span class="mr-3">👔</span> <span id="fashion-brand">FASHION & BRAND EXPERIENCE</span>
+                    </h3>
+                    <p class="leading-relaxed mb-4 font-semibold text-lg" id="rapper-fashion" style="
+                        color: #FFFFFF;
+                        text-shadow: 
+                            0 0 3px rgba(255, 255, 255, 0.4),
+                            0 2px 4px rgba(0, 0, 0, 0.9);
+                        filter: contrast(1.1) brightness(1.05);
+                    ">
+                        Fashion influence description will be displayed here...
+                    </p>
+                    <div class="flex flex-wrap gap-2" id="rapper-fashion-tags">
+                        <!-- 패션 태그들이 동적으로 생성됩니다 -->
+                    </div>
+                </div>
+
+                <!-- Personal Quote -->
+                <div class="bg-gradient-to-r from-yellow-600/25 to-orange-600/25 rounded-2xl p-6 border-2 border-yellow-400/60 relative">
+                    <div class="border-l-4 border-yellow-400 pl-6">
+                        <h3 class="text-lg font-bold text-yellow-400 mb-3 flex items-center">
+                            <span class="mr-3">💭</span> <span id="personal-philosophy">PERSONAL PHILOSOPHY</span>
+                        </h3>
+                        <blockquote class="text-xl font-bold italic mb-2" id="rapper-quote" style="
+                            color: #FFFFFF;
+                            text-shadow: 
+                                0 0 4px rgba(255, 255, 255, 0.5),
+                                0 2px 4px rgba(0, 0, 0, 0.9);
+                            filter: contrast(1.15) brightness(1.1);
+                        ">
+                            Inspirational quote will be displayed here...
+                        </blockquote>
+                        <div class="text-right text-base font-semibold mt-2" id="rapper-quote-source" style="
+                            color: #FFFFFF;
+                            text-shadow: 
+                                0 0 2px rgba(255, 255, 255, 0.3),
+                                0 2px 4px rgba(0, 0, 0, 0.8);
+                            filter: contrast(1.05) brightness(1.02);
+                        ">
+                            - Artist Name
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    let currentStyle = null;
+    let userName = '';
+    let currentLanguage = 'en';
+    let selectedItems = {
+        top: null,
+        bottom: null,
+        shoes: null,
+        accessory: null
+    };
+
+    const styles = {
+        street: { name: 'Street', color: 'from-orange-500 to-red-600', rappers: ['Travis Scott', 'A$AP Rocky', 'Lil Wayne'] },
+        luxury: { name: 'Luxury', color: 'from-purple-500 to-pink-600', rappers: ['Kanye West', 'JAY-Z', 'Drake'] },
+        vintage: { name: 'Vintage', color: 'from-yellow-500 to-orange-600', rappers: ['Nas', 'Biggie', '2Pac'] }
+    };
+
+    // 이미지 경로 정의
+    const itemImages = {
+        top: {
+            'oversized-tee': {
+                street: '../img/streettee.png',
+                luxury: '../img/luxurytee.png',
+                vintage: '../img/vintagetee.png'
+            },
+            'hoodie': {
+                street: '../img/streethoodie.png',
+                luxury: '../img/luxuryhoodie.png',
+                vintage: '../img/vintagehoodie.png'
+            },
+            'varsity-jacket': {
+                street: '../img/streetvarsity.png',
+                luxury: '../img/luxuryvarsity.png',
+                vintage: '../img/vintagevarsity.png'
+            },
+            'tank-top': {
+                street: '../img/streettank.png',
+                luxury: '../img/luxurytank.png',
+                vintage: '../img/vintagetank.png'
+            }
+        },
+        bottom: {
+            'cargo-pants': {
+                street: '../img/streetcargo.png',
+                luxury: '../img/luxurycargo.png',
+                vintage: '../img/vintagecargo.png'
+            },
+            'ripped-jeans': {
+                street: '../img/streetripped.png',
+                luxury: '../img/luxuryripped.png',
+                vintage: '../img/vintageripped.png'
+            },
+            'joggers': {
+                street: '../img/streetjogger.png',
+                luxury: '../img/luxuryjogger.png',
+                vintage: '../img/vintagejogger.png'
+            },
+            'shorts': {
+                street: '../img/streetshort.png',
+                luxury: '../img/luxuryshort.png',
+                vintage: '../img/vintageshort.png'
+            }
+        },
+        shoes: {
+            'air-force': {
+                street: '../img/force.png',
+                luxury: '../img/force.png',
+                vintage: '../img/vintageforce.png'
+            },
+            'jordans': {
+                street: '../img/jordan.png',
+                luxury: '../img/luxuryjordan.png',
+                vintage: '../img/jordan.png'
+            },
+            'timberlands': {
+                street: '../img/timberland.png',
+                luxury: '../img/timberland.png',
+                vintage: '../img/timberland.png'
+            },
+            'converse': {
+                street: '../img/streetconverse.png',
+                luxury: '../img/luxuryconverse.png',
+                vintage: '../img/vintageconverse.png'
+            }
+        },
+        accessory: {
+            'chain': {
+                street: '../img/chain.png',
+                luxury: '../img/chain.png',
+                vintage: '../img/chain.png'
+            },
+            'cap': {
+                street: '../img/cap.png',
+                luxury: '../img/cap.png',
+                vintage: '../img/cap.png'
+            },
+            'sunglasses': {
+                street: '../img/sunglass.png',
+                luxury: '../img/sunglass.png',
+                vintage: '../img/sunglass.png'
+            },
+            'watch': {
+                street: '../img/watch.png',
+                luxury: '../img/watch.png',
+                vintage: '../img/watch.png'
+            }
+        }
+    };
+
+    // 다국어 텍스트 정의
+    const translations = {
+        en: {
+            langText: 'Korean',
+            subtitle: 'Create Your Hip-Hop Vibe & Get AI Rapper Recommendations! 🎤',
+            chooseVibe: '🎯 Choose Your Vibe',
+            streetText: '🔥 Street',
+            luxuryText: '💎 Luxury',
+            vintageText: '✨ Vintage',
+            yourAvatar: '👤 Your Avatar',
+            clearText: 'CLEAR',
+            clickHint: 'Click to add your name! ✨',
+            completeStyle: '🎉 Complete Your Style!',
+            topsTitle: '👕 Tops',
+            bottomsTitle: '👖 Bottoms',
+            kicksTitle: '👟 Kicks',
+            accessoriesTitle: '✨ Accessories',
+            currentFit: '🔥 Your Current Fit',
+            notSelected: 'Not Selected',
+            modalNameTitle: "✨ What's Your Name?",
+            modalNameDesc: 'Give your avatar a name to make it yours! 🎭',
+            saveBtn: '🎉 Save',
+            cancelBtn: 'Cancel',
+            modalRapperTitle: '🎤 AI Rapper Style Match!',
+            modalStyleMatch: 'Your <span id="style-name">Street</span> style matches these rappers:',
+            modalClickHint: 'Click on any rapper to see their profile!',
+            modalClose: 'Close',
+            debutYearLabel: 'DEBUT YEAR',
+            albumsLabel: 'ALBUMS',
+            awardsLabel: 'AWARDS',
+            profSummary: 'PROFESSIONAL SUMMARY',
+            coreSkills: 'CORE SKILLS',
+            notableWorks: 'NOTABLE WORKS',
+            fashionBrand: 'FASHION & BRAND EXPERIENCE',
+            personalPhilosophy: 'PERSONAL PHILOSOPHY',
+            // 아이템 이름들
+            'oversized-tee': 'Oversized Tee',
+            'hoodie': 'Hoodie',
+            'varsity-jacket': 'Varsity Jacket',
+            'tank-top': 'Tank Top',
+            'cargo-pants': 'Cargo Pants',
+            'ripped-jeans': 'Ripped Jeans',
+            'joggers': 'Joggers',
+            'shorts': 'Shorts',
+            'air-force': 'Air Force',
+            'jordans': 'Jordans',
+            'timberlands': 'Timberlands',
+            'converse': 'Converse',
+            'chain': 'Chain',
+            'cap': 'Cap',
+            'sunglasses': 'Sunglasses',
+            'watch': 'Watch',
+            // 성공 메시지들
+            successMessages: [
+                '🔥 {name} is looking fresh!',
+                '✨ {name}\'s style is on point!',  
+                '🎯 {name} got that swag!',
+                '💎 {name} is styling hard!',
+                '🚀 {name} entered the game!'
+            ]
+        },
+        ko: {
+            langText: 'English',
+            subtitle: '당신만의 힙합 바이브를 만들고 AI 래퍼 추천을 받아보세요! 🎤',
+            chooseVibe: '🎯 스타일 선택하기',
+            streetText: '🔥 스트릿',
+            luxuryText: '💎 럭셔리',
+            vintageText: '✨ 빈티지',
+            yourAvatar: '👤 나의 아바타',
+            clearText: '초기화',
+            clickHint: '클릭해서 이름을 추가하세요! ✨',
+            completeStyle: '🎉 스타일 완성하기!',
+            topsTitle: '👕 상의',
+            bottomsTitle: '👖 하의',
+            kicksTitle: '👟 신발',
+            accessoriesTitle: '✨ 액세서리',
+            currentFit: '🔥 현재 나의 스타일',
+            notSelected: '선택 안됨',
+            modalNameTitle: '✨ 이름이 뭔가요?',
+            modalNameDesc: '아바타에 이름을 지어주고 나만의 캐릭터로 만들어보세요! 🎭',
+            saveBtn: '🎉 저장',
+            cancelBtn: '취소',
+            modalRapperTitle: '🎤 AI 래퍼 스타일 매칭!',
+            modalStyleMatch: '당신의 <span id="style-name">스트릿</span> 스타일과 어울리는 래퍼들:',
+            modalClickHint: '래퍼를 클릭하면 프로필을 볼 수 있어요!',
+            modalClose: '닫기',
+            debutYearLabel: '데뷔년도',
+            albumsLabel: '앨범수',
+            awardsLabel: '수상횟수',
+            profSummary: '전문가 요약',
+            coreSkills: '핵심 스킬',
+            notableWorks: '대표작',
+            fashionBrand: '패션 & 브랜드 경험',
+            personalPhilosophy: '개인 철학',
+            // 아이템 이름들
+            'oversized-tee': '오버사이즈 티',
+            'hoodie': '후드티',
+            'varsity-jacket': '바시티 자켓',
+            'tank-top': '탱크톱',
+            'cargo-pants': '카고 팬츠',
+            'ripped-jeans': '찢어진 청바지',
+            'joggers': '조거 팬츠',
+            'shorts': '반바지',
+            'air-force': '에어포스',
+            'jordans': '조던',
+            'timberlands': '팀버랜드',
+            'converse': '컨버스',
+            'chain': '체인',
+            'cap': '모자',
+            'sunglasses': '선글라스',
+            'watch': '시계',
+            // 성공 메시지들
+            successMessages: [
+                '🔥 {name}님 완전 멋져요!',
+                '✨ {name}님의 스타일이 최고네요!',  
+                '🎯 {name}님 진짜 스웩 넘쳐요!',
+                '💎 {name}님 스타일링 완벽해요!',
+                '🚀 {name}님이 등장했어요!'
+            ]
+        }
+    };
+
+    // 래퍼 프로필 데이터
+    const rapperProfiles = {
+        'Travis Scott': {
+            avatar: '🌵',
+            title: 'Astroworld Architect',
+            debut: '2012',
+            albums: '4',
+            awards: '8',
+            bio: 'Travis Scott is an American rapper, singer, and record producer known for his atmospheric production style and energetic live performances. He has revolutionized the hip-hop scene with his unique sound that blends trap, psychedelic, and ambient music.',
+            style: ['Trap', 'Psychedelic Hip-Hop', 'Ambient Rap', 'Auto-Tune Heavy'],
+            tracks: ['SICKO MODE', 'Goosebumps', 'Antidote', 'Highest In The Room'],
+            fashion: 'Travis Scott has become a fashion icon known for his streetwear collaborations with Nike, Jordan, and various high-end brands. His style features oversized silhouettes, earth tones, and futuristic elements.',
+            fashionTags: ['Streetwear', 'Nike Collabs', 'Oversized Fits', 'Earth Tones', 'Cactus Jack'],
+            quote: 'I want to make music that moves people and changes the game.',
+            quoteSource: 'Travis Scott'
+        },
+        'A$AP Rocky': {
+            avatar: '👑',
+            title: 'Fashion Killa',
+            debut: '2011',
+            albums: '3',
+            awards: '6',
+            bio: 'A$AP Rocky is an American rapper and member of the hip hop collective A$AP Mob. Known for his distinctive fashion sense and experimental approach to hip-hop, he has become one of the most influential artists in both music and fashion.',
+            style: ['Cloud Rap', 'Experimental Hip-Hop', 'Fashion Rap', 'Psychedelic'],
+            tracks: ['L$D', 'Praise The Lord', 'F**kin Problems', 'Wild For The Night'],
+            fashion: 'A$AP Rocky is renowned for his high-fashion aesthetic, mixing luxury brands with streetwear. He\'s known for pushing boundaries in male fashion and has been featured in numerous fashion campaigns.',
+            fashionTags: ['High Fashion', 'Luxury Brands', 'Gender-Fluid Fashion', 'Avant-Garde', 'Runway Ready'],
+            quote: 'Fashion is almost like a religion, for me at least.',
+            quoteSource: 'A$AP Rocky'
+        },
+        'Lil Wayne': {
+            avatar: '🔥',
+            title: 'Weezy F Baby',
+            debut: '1999',
+            albums: '13',
+            awards: '15',
+            bio: 'Lil Wayne is an American rapper who has been a dominant force in hip-hop for over two decades. Known for his prolific output, clever wordplay, and influence on modern rap, he has mentored numerous successful artists.',
+            style: ['Southern Hip-Hop', 'Trap', 'Punchline Rap', 'Auto-Tune Rap'],
+            tracks: ['Lollipop', 'A Milli', '6 Foot 7 Foot', 'How To Love'],
+            fashion: 'Lil Wayne\'s style is characterized by bold colors, multiple chains, face tattoos, and a fearless approach to fashion. He\'s known for his extensive tattoo collection and unique accessories.',
+            fashionTags: ['Bold Colors', 'Multiple Chains', 'Face Tattoos', 'Unique Accessories', 'Fearless Style'],
+            quote: 'I\'m a gangsta, and gangstas don\'t ask questions.',
+            quoteSource: 'Lil Wayne'
+        },
+        'Kanye West': {
+            avatar: '🐻',
+            title: 'Yeezus',
+            debut: '2004',
+            albums: '10',
+            awards: '22',
+            bio: 'Kanye West is an American rapper, producer, and fashion designer who has consistently pushed the boundaries of hip-hop and popular culture. He\'s known for his innovative production techniques and controversial statements.',
+            style: ['Conscious Rap', 'Experimental Hip-Hop', 'Gospel Rap', 'Industrial Hip-Hop'],
+            tracks: ['Stronger', 'Gold Digger', 'Heartless', 'Power'],
+            fashion: 'Kanye West has revolutionized fashion through his Yeezy brand, focusing on minimalist aesthetics, neutral colors, and innovative silhouettes. His influence extends far beyond music into luxury fashion.',
+            fashionTags: ['Yeezy', 'Minimalist', 'Neutral Colors', 'Luxury Streetwear', 'Innovative Silhouettes'],
+            quote: 'I am a god. So hurry up with my damn massage.',
+            quoteSource: 'Kanye West'
+        },
+        'JAY-Z': {
+            avatar: '💎',
+            title: 'Hov',
+            debut: '1996',
+            albums: '13',
+            awards: '24',
+            bio: 'JAY-Z is an American rapper and entrepreneur who has become one of the most successful artists in hip-hop history. He\'s known for his business acumen, lyrical prowess, and cultural influence spanning over two decades.',
+            style: ['East Coast Hip-Hop', 'Conscious Rap', 'Hardcore Hip-Hop', 'Business Rap'],
+            tracks: ['99 Problems', 'Empire State of Mind', 'Big Pimpin\'', 'Izzo (H.O.V.A.)'],
+            fashion: 'JAY-Z represents sophisticated luxury in hip-hop fashion, often seen in tailored suits, high-end watches, and classic pieces. He embodies the transition from street style to boardroom elegance.',
+            fashionTags: ['Tailored Suits', 'Luxury Watches', 'Classic Elegance', 'Business Attire', 'Sophisticated Style'],
+            quote: 'I\'m not a businessman, I\'m a business, man.',
+            quoteSource: 'JAY-Z'
+        },
+        'Drake': {
+            avatar: '🦉',
+            title: '6 God',
+            debut: '2009',
+            albums: '6',
+            awards: '18',
+            bio: 'Drake is a Canadian rapper, singer, and actor who has dominated the charts with his melodic approach to hip-hop. He\'s known for blending rap with R&B, creating a new subgenre that has influenced countless artists.',
+            style: ['Melodic Rap', 'R&B Hip-Hop', 'Emotional Rap', 'Pop Rap'],
+            tracks: ['God\'s Plan', 'In My Feelings', 'Hotline Bling', 'One Dance'],
+            fashion: 'Drake\'s style combines luxury streetwear with high-end fashion. He\'s known for his OVO brand, clean aesthetics, and ability to seamlessly blend casual and formal elements.',
+            fashionTags: ['OVO Brand', 'Clean Aesthetics', 'Luxury Streetwear', 'Minimalist', 'Canadian Tuxedo'],
+            quote: 'Sometimes it\'s the journey that teaches you a lot about your destination.',
+            quoteSource: 'Drake'
+        },
+        'Nas': {
+            avatar: '👑',
+            title: 'King of NY',
+            debut: '1994',
+            albums: '12',
+            awards: '7',
+            bio: 'Nas is an American rapper widely regarded as one of the greatest lyricists in hip-hop history. His debut album "Illmatic" is considered a masterpiece and has influenced generations of rappers.',
+            style: ['East Coast Hip-Hop', 'Conscious Rap', 'Lyrical Hip-Hop', 'Storytelling Rap'],
+            tracks: ['N.Y. State of Mind', 'If I Ruled the World', 'Nas Is Like', 'The World Is Yours'],
+            fashion: 'Nas represents classic hip-hop fashion with his preference for timeless pieces, gold chains, and street-influenced luxury wear. His style reflects the golden age of hip-hop.',
+            fashionTags: ['Classic Hip-Hop', 'Gold Chains', 'Timeless Pieces', 'Street Luxury', 'NY Style'],
+            quote: 'I know I can be what I wanna be, if I work hard at it.',
+            quoteSource: 'Nas'
+        },
+        'Biggie': {
+            avatar: '👑',
+            title: 'King of NY',
+            debut: '1994',
+            albums: '2',
+            awards: '6',
+            bio: 'The Notorious B.I.G. was an American rapper who is widely considered one of the greatest rappers of all time. Despite his short career, his impact on hip-hop culture and fashion remains immeasurable.',
+            style: ['East Coast Hip-Hop', 'Hardcore Hip-Hop', 'Storytelling Rap', 'Gangsta Rap'],
+            tracks: ['Juicy', 'Big Poppa', 'Hypnotize', 'Mo Money Mo Problems'],
+            fashion: 'Biggie was known for his fly, larger-than-life style featuring luxury brands, bold patterns, and statement pieces. He helped define the aesthetic of 90s hip-hop fashion.',
+            fashionTags: ['Luxury Brands', 'Bold Patterns', 'Statement Pieces', '90s Hip-Hop', 'Fly Style'],
+            quote: 'Stay far from timid, only make moves when your heart\'s in it.',
+            quoteSource: 'The Notorious B.I.G.'
+        },
+        '2Pac': {
+            avatar: '🌹',
+            title: 'All Eyez On Me',
+            debut: '1991',
+            albums: '5',
+            awards: '8',
+            bio: '2Pac was an American rapper and actor who became one of the most influential figures in hip-hop. Known for his raw honesty, social commentary, and passionate delivery, his legacy continues to inspire.',
+            style: ['West Coast Hip-Hop', 'Conscious Rap', 'Gangsta Rap', 'Political Rap'],
+            tracks: ['California Love', 'Dear Mama', 'Changes', 'Hit \'Em Up'],
+            fashion: '2Pac\'s style was characterized by bandanas, gold jewelry, and a mix of street and West Coast aesthetics. His fearless approach to fashion matched his bold personality.',
+            fashionTags: ['Bandanas', 'Gold Jewelry', 'West Coast Style', 'Street Aesthetics', 'Bold Fashion'],
+            quote: 'Reality is wrong. Dreams are for real.',
+            quoteSource: '2Pac'
+        }
+    };
+
+    // 초기화 함수
+    function clearSelection() {
+        currentStyle = null;
+        selectedItems = {
+            top: null,
+            bottom: null,
+            shoes: null,
+            accessory: null
+        };
+        
+        document.querySelectorAll('.style-btn').forEach(btn => {
+            btn.className = 'style-btn px-8 py-4 rounded-2xl font-bold text-xl transform transition-all duration-300 hover:scale-110 bg-gray-800 hover:bg-gray-700';
+        });
+        
+        document.querySelectorAll('.item-btn').forEach(btn => {
+            btn.className = 'item-btn p-4 rounded-xl font-semibold text-center transition-all duration-300 transform hover:scale-105 bg-gray-700 hover:bg-gray-600';
+        });
+        
+        // 모든 이미지 숨기고 이모지 표시
+        ['top', 'bottom', 'shoes', 'accessory'].forEach(category => {
+            document.getElementById(category + '-image').classList.add('hidden');
+            document.getElementById(category + '-emoji').classList.remove('hidden');
+            document.getElementById(category + '-emoji').textContent = '?';
+            
+            if (category === 'shoes') {
+                document.getElementById(category + '-emoji').className = 'empty-display text-8xl';
+            } else if (category === 'accessory') {
+                document.getElementById(category + '-emoji').className = 'empty-display text-6xl';
+            } else {
+                document.getElementById(category + '-emoji').className = 'empty-display';
+            }
+        });
+        
+        updateCurrentStyleDisplay();
+    }
+
+    function updateCurrentStyleDisplay() {
+        const t = translations[currentLanguage];
+        
+        ['top', 'bottom', 'shoes', 'accessory'].forEach(category => {
+            const emojiEl = document.getElementById('current-' + category);
+            const nameEl = document.getElementById('current-' + category + '-name');
+            
+            if (selectedItems[category]) {
+                emojiEl.textContent = selectedItems[category].emoji;
+                emojiEl.className = 'text-2xl mb-2';
+                nameEl.textContent = selectedItems[category].name;
+            } else {
+                emojiEl.textContent = '?';
+                emojiEl.className = 'text-2xl mb-2 empty-display';
+                nameEl.textContent = t.notSelected;
+            }
+        });
+    }
+
+    function switchLanguage() {
+        currentLanguage = currentLanguage === 'en' ? 'ko' : 'en';
+        updateLanguage();
+    }
+
+    function updateLanguage() {
+        const t = translations[currentLanguage];
+        
+        // UI 요소들 업데이트
+        document.getElementById('lang-text').textContent = t.langText;
+        document.getElementById('subtitle').textContent = t.subtitle;
+        document.getElementById('choose-vibe').textContent = t.chooseVibe;
+        document.getElementById('street-text').textContent = t.streetText;
+        document.getElementById('luxury-text').textContent = t.luxuryText;
+        document.getElementById('vintage-text').textContent = t.vintageText;
+        document.getElementById('your-avatar').textContent = t.yourAvatar;
+        document.getElementById('clear-text').textContent = t.clearText;
+        document.getElementById('click-hint').textContent = t.clickHint;
+        document.getElementById('complete-style').textContent = t.completeStyle;
+        document.getElementById('tops-title').textContent = t.topsTitle;
+        document.getElementById('bottoms-title').textContent = t.bottomsTitle;
+        document.getElementById('kicks-title').textContent = t.kicksTitle;
+        document.getElementById('accessories-title').textContent = t.accessoriesTitle;
+        document.getElementById('current-fit').textContent = t.currentFit;
+        
+        // 모달 요소들
+        document.getElementById('modal-name-title').textContent = t.modalNameTitle;
+        document.getElementById('modal-name-desc').textContent = t.modalNameDesc;
+        document.getElementById('save-btn').textContent = t.saveBtn;
+        document.getElementById('cancel-btn').textContent = t.cancelBtn;
+        document.getElementById('modal-rapper-title').textContent = t.modalRapperTitle;
+        document.getElementById('modal-click-hint').textContent = t.modalClickHint;
+        document.getElementById('modal-close').textContent = t.modalClose;
+        
+        // 프로필 라벨들
+        document.getElementById('debut-year-label').textContent = t.debutYearLabel;
+        document.getElementById('albums-label').textContent = t.albumsLabel;
+        document.getElementById('awards-label').textContent = t.awardsLabel;
+        document.getElementById('prof-summary').textContent = t.profSummary;
+        document.getElementById('core-skills').textContent = t.coreSkills;
+        document.getElementById('notable-works').textContent = t.notableWorks;
+        document.getElementById('fashion-brand').textContent = t.fashionBrand;
+        document.getElementById('personal-philosophy').textContent = t.personalPhilosophy;
+        
+        // 아이템 이름들
+        const itemIds = ['oversized-tee', 'hoodie', 'varsity-jacket', 'tank-top', 
+                        'cargo-pants', 'ripped-jeans', 'joggers', 'shorts',
+                        'air-force', 'jordans', 'timberlands', 'converse',
+                        'chain', 'cap', 'sunglasses', 'watch'];
+        
+        itemIds.forEach(itemId => {
+            const element = document.getElementById(itemId);
+            if (element) {
+                element.textContent = t[itemId];
+            }
+        });
+        
+        updateCurrentStyleDisplay();
+        
+        // placeholder 업데이트
+        const nameInput = document.getElementById('name-input');
+        if (nameInput) {
+            nameInput.placeholder = currentLanguage === 'en' ? 'Enter your name...' : '이름을 입력하세요...';
+        }
+    }
+
+    function getStyleName(style) {
+        if (currentLanguage === 'ko') {
+            const koNames = {
+                'street': '스트릿',
+                'luxury': '럭셔리', 
+                'vintage': '빈티지'
+            };
+            return koNames[style] || style;
+        }
+        return styles[style].name;
+    }
+
+    function goToMenu() {
+        window.location.href = '../html/menupage.html';
+    }
+
+    function showNameInput() {
+        const modal = document.getElementById('name-input-modal');
+        const input = document.getElementById('name-input');
+        modal.classList.remove('hidden');
+        input.focus();
+        
+        input.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                saveName();
+            }
+        });
+    }
+
+    function saveName() {
+        const input = document.getElementById('name-input');
+        const name = input.value.trim();
+        
+        if (name) {
+            userName = name;
+            document.getElementById('user-name-text').textContent = name;
+            document.getElementById('user-name-display').classList.remove('hidden');
+            
+            const messages = translations[currentLanguage].successMessages;
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            const finalMessage = randomMessage.replace('{name}', name);
+            
+            const tempMessage = document.createElement('div');
+            tempMessage.className = 'fixed top-20 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-green-400 to-blue-500 px-6 py-3 rounded-2xl font-bold text-lg z-50 animate-bounce';
+            tempMessage.textContent = finalMessage;
+            document.body.appendChild(tempMessage);
+            
+            setTimeout(() => {
+                tempMessage.remove();
+            }, 3000);
+        }
+        
+        closeNameInput();
+    }
+
+    function closeNameInput() {
+        document.getElementById('name-input-modal').classList.add('hidden');
+        document.getElementById('name-input').value = '';
+    }
+
+    function selectStyle(style) {
+        currentStyle = style;
+        
+        document.querySelectorAll('.style-btn').forEach(btn => {
+            btn.className = 'style-btn px-8 py-4 rounded-2xl font-bold text-xl transform transition-all duration-300 hover:scale-110 bg-gray-800 hover:bg-gray-700';
+        });
+        
+        const selectedBtn = document.getElementById(style + '-btn');
+        const styleColor = styles[style].color;
+        selectedBtn.className = `style-btn px-8 py-4 rounded-2xl font-bold text-xl transform transition-all duration-300 hover:scale-110 bg-gradient-to-r ${styleColor} shadow-2xl scale-110`;
+        
+        // 현재 선택된 아이템들의 이미지 업데이트
+        Object.keys(selectedItems).forEach(category => {
+            if (selectedItems[category]) {
+                updateItemImage(category, selectedItems[category].key);
+            }
+        });
+        
+        updateItemColors();
+    }
+
+    function updateItemImage(category, itemKey) {
+        if (!currentStyle) return;
+        
+        if (itemImages[category] && itemImages[category][itemKey]) {
+            const imageElement = document.getElementById(category + '-image');
+            const emojiElement = document.getElementById(category + '-emoji');
+            
+            const imagePath = itemImages[category][itemKey][currentStyle];
+            
+            if (imagePath) {
+                imageElement.src = imagePath;
+                imageElement.classList.remove('hidden');
+                emojiElement.classList.add('hidden');
+            } else {
+                imageElement.classList.add('hidden');
+                emojiElement.classList.remove('hidden');
+                emojiElement.textContent = selectedItems[category].emoji;
+                if (category === 'shoes') {
+                    emojiElement.className = 'text-8xl';
+                } else if (category === 'accessory') {
+                    emojiElement.className = 'text-6xl';
+                } else {
+                    emojiElement.className = 'empty-display';
+                }
+            }
+        }
+    }
+
+    function updateItemColors() {
+        if (!currentStyle) return;
+        
+        const styleColor = styles[currentStyle].color;
+        document.querySelectorAll('.item-btn').forEach(btn => {
+            const category = btn.dataset.category;
+            const item = btn.dataset.item;
+            
+            if (selectedItems[category] && selectedItems[category].key === item) {
+                btn.className = `item-btn p-4 rounded-xl font-semibold text-center transition-all duration-300 transform hover:scale-105 bg-gradient-to-r ${styleColor} shadow-lg`;
+            } else {
+                btn.className = 'item-btn p-4 rounded-xl font-semibold text-center transition-all duration-300 transform hover:scale-105 bg-gray-700 hover:bg-gray-600';
+            }
+        });
+    }
+
+    function selectItem(category, itemKey, emoji) {
+        const itemName = translations[currentLanguage][itemKey];
+        selectedItems[category] = { key: itemKey, emoji: emoji, name: itemName };
+        
+        updateItemImage(category, itemKey);
+        updateCurrentStyleDisplay();
+        updateItemColors();
+    }
+
+    function showRecommendation() {
+        if (!currentStyle) {
+            alert(currentLanguage === 'en' ? 'Please select a style first!' : '먼저 스타일을 선택해주세요!');
+            return;
+        }
+        
+        const modal = document.getElementById('recommendation-modal');
+        const styleName = getStyleName(currentStyle);
+        const rapperList = document.getElementById('rapper-list');
+        
+        const styleMatchElement = document.getElementById('modal-style-match');
+        styleMatchElement.innerHTML = currentLanguage === 'en' 
+            ? `Your <span id="style-name">${styleName}</span> style matches these rappers:`
+            : `당신의 <span id="style-name">${styleName}</span> 스타일과 어울리는 래퍼들:`;
+        
+        rapperList.innerHTML = styles[currentStyle].rappers.map(rapper => 
+            `<div class="text-xl font-bold text-cyan-300 cursor-pointer hover:text-yellow-400 transition-colors duration-300 transform hover:scale-105 p-2 rounded-lg hover:bg-gray-700/50" onclick="showRapperProfile('${rapper}')">⭐ ${rapper}</div>`
+        ).join('');
+        
+        modal.classList.remove('hidden');
+    }
+
+    function closeRecommendationModal() {
+        document.getElementById('recommendation-modal').classList.add('hidden');
+    }
+
+    function showRapperProfile(rapperName) {
+        const profile = rapperProfiles[rapperName];
+        if (!profile) return;
+
+        document.getElementById('rapper-avatar').textContent = profile.avatar;
+        document.getElementById('rapper-name').textContent = rapperName;
+        document.getElementById('rapper-title').textContent = profile.title;
+        document.getElementById('rapper-debut').textContent = profile.debut;
+        document.getElementById('rapper-albums').textContent = profile.albums;
+        document.getElementById('rapper-awards').textContent = profile.awards;
+        document.getElementById('rapper-bio').textContent = profile.bio;
+        
+        const styleContainer = document.getElementById('rapper-style');
+        styleContainer.innerHTML = profile.style.map(style => 
+            `<div class="flex items-center space-x-2 mb-2">
+                <span class="w-2 h-2 bg-cyan-400 rounded-full"></span>
+                <span class="font-semibold text-lg" style="
+                    color: rgba(255, 255, 255, 0.98);
+                    text-shadow: 
+                        0 0 6px rgba(255, 255, 255, 0.4),
+                        0 1px 2px rgba(0, 0, 0, 1),
+                        0 0 12px rgba(255, 255, 255, 0.2);
+                ">${style}</span>
+            </div>`
+        ).join('');
+        
+        const tracksContainer = document.getElementById('rapper-tracks');
+        tracksContainer.innerHTML = profile.tracks.map(track => 
+            `<div class="flex items-center space-x-2 mb-2">
+                <span class="w-2 h-2 bg-pink-400 rounded-full"></span>
+                <span class="font-semibold text-lg" style="
+                    color: rgba(255, 255, 255, 0.98);
+                    text-shadow: 
+                        0 0 6px rgba(255, 255, 255, 0.4),
+                        0 1px 2px rgba(0, 0, 0, 1),
+                        0 0 12px rgba(255, 255, 255, 0.2);
+                ">${track}</span>
+            </div>`
+        ).join('');
+        
+        document.getElementById('rapper-fashion').textContent = profile.fashion;
+        
+        const fashionTagsContainer = document.getElementById('rapper-fashion-tags');
+        fashionTagsContainer.innerHTML = profile.fashionTags.map(tag => 
+            `<span class="inline-block px-4 py-2 bg-purple-600/60 border-2 border-purple-400/80 rounded-lg mr-2 mb-2 font-bold text-base" style="
+                color: rgba(255, 255, 255, 0.98);
+                text-shadow: 
+                    0 0 8px rgba(255, 255, 255, 0.5),
+                    0 1px 2px rgba(0, 0, 0, 1),
+                    0 0 15px rgba(255, 255, 255, 0.3);
+            ">${tag}</span>`
+        ).join('');
+        
+        document.getElementById('rapper-quote').textContent = profile.quote;
+        document.getElementById('rapper-quote-source').textContent = `- ${profile.quoteSource}`;
+        
+        document.getElementById('recommendation-modal').classList.add('hidden');
+        document.getElementById('rapper-profile-section').classList.remove('hidden');
+        
+        document.getElementById('rapper-profile-section').scrollIntoView({ 
+            behavior: 'smooth' 
+        });
+    }
+
+    function closeRapperProfile() {
+        document.getElementById('rapper-profile-section').classList.add('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function initCursorEffect() {
+        const cursorGlow = document.getElementById('cursor-glow');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+        
+        function updateCursor() {
+            cursorX += (mouseX - cursorX) * 0.4;
+            cursorY += (mouseY - cursorY) * 0.4;
+            
+            cursorGlow.style.left = cursorX + 'px';
+            cursorGlow.style.top = cursorY + 'px';
+            
+            requestAnimationFrame(updateCursor);
+        }
+        updateCursor();
+        
+        const hoverElements = document.querySelectorAll('button, .cursor-pointer, [onclick], a, input');
+        hoverElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursorGlow.classList.add('hover');
+            });
+            el.addEventListener('mouseleave', () => {
+                cursorGlow.classList.remove('hover');
+            });
+        });
+        
+        document.addEventListener('mouseleave', () => {
+            cursorGlow.style.opacity = '0';
+        });
+        
+        document.addEventListener('mouseenter', () => {
+            cursorGlow.style.opacity = '1';
+        });
+    }
+
+    function createStars() {
+        const starsContainer = document.getElementById('stars');
+        const numStars = 200;
+        
+        for (let i = 0; i < numStars; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            
+            const size = Math.random() * 3 + 1;
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            
+            starsContainer.appendChild(star);
+        }
+    }
+
+    window.addEventListener('load', () => {
+        createStars();
+        initCursorEffect();
+        updateLanguage();
+        updateCurrentStyleDisplay();
+    });
+</script>
+</body>
+</html>
